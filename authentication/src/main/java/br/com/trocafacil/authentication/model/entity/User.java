@@ -1,5 +1,6 @@
 package br.com.trocafacil.authentication.model.entity;
 
+import br.com.trocafacil.authentication.model.dto.LoginDto;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +29,11 @@ public class User implements UserDetails {
 
     @Nonnull
     private String password;
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
