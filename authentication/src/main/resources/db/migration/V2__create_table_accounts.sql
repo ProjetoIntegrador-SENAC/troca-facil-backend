@@ -1,0 +1,10 @@
+CREATE TABLE accounts(
+    id VARCHAR(255) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    surname VARCHAR(100) NOT NULL,
+    id_user VARCHAR(255) NOT NULL,
+    document VARCHAR(16) NOT NULL UNIQUE,
+
+    PRIMARY KEY(ID),
+    CONSTRAINT FOREIGN KEY(id_user) REFERENCES  users(id)
+)
