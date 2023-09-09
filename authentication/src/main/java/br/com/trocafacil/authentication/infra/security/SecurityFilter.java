@@ -1,6 +1,6 @@
 package br.com.trocafacil.authentication.infra.security;
 
-import br.com.trocafacil.authentication.model.repository.UserRepository;
+import br.com.trocafacil.model.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

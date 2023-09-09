@@ -68,6 +68,11 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 			<version>4.0.3</version>
 		</dependency>
+		<dependency>
+			<groupId>br.com.trocafacil</groupId>
+			<artifactId>model</artifactId>
+			<version>1.0.3</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

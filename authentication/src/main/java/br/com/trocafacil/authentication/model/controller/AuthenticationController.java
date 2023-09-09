@@ -1,10 +1,10 @@
 package br.com.trocafacil.authentication.model.controller;
 
 import br.com.trocafacil.authentication.infra.security.JwtService;
-import br.com.trocafacil.authentication.model.dto.LoginDto;
-import br.com.trocafacil.authentication.model.dto.TokenDto;
-import br.com.trocafacil.authentication.model.entity.User;
-import br.com.trocafacil.authentication.model.repository.UserRepository;
+import br.com.trocafacil.model.dto.LoginDto;
+import br.com.trocafacil.model.dto.TokenDto;
+import br.com.trocafacil.model.entity.User;
+import br.com.trocafacil.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +36,7 @@ public class AuthenticationController {
         // Por debaixo dos panos, esse objeto do spring chama o AuthenticationService
         var authentication = authenticationManager.authenticate(token);
 
-        String tokenJwt = jwtService.generateToken((User)authentication.getPrincipal());
+        String tokenJwt = jwtService.generateToken((User) authentication.getPrincipal());
 
         return ResponseEntity.ok(new TokenDto(tokenJwt));
     }

@@ -1,6 +1,6 @@
 package br.com.trocafacil.authentication.model.service;
 
-import br.com.trocafacil.authentication.model.repository.UserRepository;
+import br.com.trocafacil.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
