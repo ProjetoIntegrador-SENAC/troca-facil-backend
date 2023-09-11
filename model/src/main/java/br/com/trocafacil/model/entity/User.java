@@ -29,6 +29,9 @@ public class User implements UserDetails {
     @Nonnull
     private String password;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL) // ambos vão ter o mesmo id
+    private Account account;
+
     public User(String login, String password) {
         this.login = login;
         this.password = password;
