@@ -15,21 +15,23 @@ import lombok.*;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Nonnull
+    @Column(length = 100)
     private String name;
 
     @Nonnull
+    @Column(length = 100)
     private String surname;
 
     @Nonnull
     @OneToOne
-    @MapsId
     private User user;
 
     @Nonnull
+    @Column(length = 16)
     // anotação para unico
     private String document;
 
@@ -37,6 +39,6 @@ public class Account {
         this.name = accountDto.name();
         this.surname = accountDto.surname();
         this.document = accountDto.document();
-        this.user = accountDto.user();
+        this.user= accountDto.user();
     }
 }

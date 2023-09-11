@@ -1,10 +1,14 @@
 package br.com.trocafacil.authentication.model.controller;
 
 import br.com.trocafacil.authentication.infra.security.JwtService;
+import br.com.trocafacil.model.dto.AccountDto;
 import br.com.trocafacil.model.dto.LoginDto;
 import br.com.trocafacil.model.dto.TokenDto;
+import br.com.trocafacil.model.entity.Account;
 import br.com.trocafacil.model.entity.User;
 import br.com.trocafacil.model.repository.UserRepository;
+import br.com.trocafacil.model.service.AccountService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +33,9 @@ public class AuthenticationController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AccountService accountService;
+
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody @Validated LoginDto login){
         var token = new UsernamePasswordAuthenticationToken(login.login(), login.password());
@@ -42,6 +49,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
+    @Transactional
     public ResponseEntity register(@RequestBody @Validated LoginDto login){
         if(userRepository.findByLogin(login.login()) != null) return ResponseEntity.badRequest().build();
 
@@ -50,6 +58,10 @@ public class AuthenticationController {
         User user = new User(login.login(), encryptedPassword);
 
         this.userRepository.save(user);
+
+        AccountDto account = new AccountDto(login.name(), login.surname(), user, login.document());
+
+        this.accountService.save(account);
 
         return ResponseEntity.ok().build();
     }

@@ -29,7 +29,7 @@ public class User implements UserDetails {
     @Nonnull
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL) // ambos vão ter o mesmo id
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Account account;
 
     public User(String login, String password) {

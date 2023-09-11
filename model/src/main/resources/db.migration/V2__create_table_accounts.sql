@@ -5,6 +5,6 @@ CREATE TABLE accounts(
     user_id VARCHAR(255) NOT NULL,
     document VARCHAR(16) NOT NULL UNIQUE,
 
-    PRIMARY KEY(id),
+    PRIMARY KEY(ID),
     CONSTRAINT FOREIGN KEY(user_id) REFERENCES  users(id)
 )
