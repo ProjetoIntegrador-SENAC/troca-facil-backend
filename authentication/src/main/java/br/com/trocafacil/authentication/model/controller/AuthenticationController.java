@@ -9,16 +9,14 @@ import br.com.trocafacil.model.entity.User;
 import br.com.trocafacil.model.repository.UserRepository;
 import br.com.trocafacil.model.service.AccountService;
 import jakarta.transaction.Transactional;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
@@ -63,6 +61,16 @@ public class AuthenticationController {
 
         this.accountService.save(account);
 
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/token")
+    public ResponseEntity validateToken(@RequestParam("token") String token){
+        try{
+            jwtService.validateToken(token);
+        } catch (RuntimeException e){
+            return ResponseEntity.badRequest().body("Token inválido!");
+        }
         return ResponseEntity.ok().build();
     }
 }

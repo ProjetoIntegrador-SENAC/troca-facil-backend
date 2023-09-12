@@ -1,0 +1,25 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: authentication
+          uri: lb://authentication-ms
+          predicates:
+            - Path=/auth/**
+
+        - id: principal
+          uri: lb://principal-ms
+          predicates:
+            - Path=/hello/**
+          filters:
+            - AuthenticationFilter
+  application:
+    name: gateway-ms
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+server:
+  port: 8080
