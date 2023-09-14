@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>br.com.trocafacil</groupId>
 			<artifactId>model</artifactId>
-			<version>1.0.4</version>
+			<version>1.0.7</version>
 		</dependency>
 	</dependencies>
 	<build>

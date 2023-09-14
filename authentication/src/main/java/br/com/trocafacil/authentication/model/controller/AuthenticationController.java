@@ -5,7 +5,9 @@ import br.com.trocafacil.model.dto.AccountDto;
 import br.com.trocafacil.model.dto.LoginDto;
 import br.com.trocafacil.model.dto.TokenDto;
 import br.com.trocafacil.model.entity.Account;
+import br.com.trocafacil.model.entity.Product;
 import br.com.trocafacil.model.entity.User;
+import br.com.trocafacil.model.repository.ProductRepository;
 import br.com.trocafacil.model.repository.UserRepository;
 import br.com.trocafacil.model.service.AccountService;
 import jakarta.transaction.Transactional;
@@ -17,6 +19,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("auth")
@@ -30,6 +34,9 @@ public class AuthenticationController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private AccountService accountService;
@@ -48,7 +55,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     @Transactional
-    public ResponseEntity register(@RequestBody @Validated LoginDto login){
+    public ResponseEntity<List<Product>> register(@RequestBody @Validated LoginDto login){
         if(userRepository.findByLogin(login.login()) != null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(login.password());
@@ -61,7 +68,13 @@ public class AuthenticationController {
 
         this.accountService.save(account);
 
-        return ResponseEntity.ok().build();
+        // TESTE BÁSICO PARA O FUNCIONAMENTO DE UM PRODUTO
+
+        var account1 = this.accountService.findByDocument(login.document());
+        Product p1 = new Product(null, "Teste", "Teste", "teste", "teste", account1);
+        this.productRepository.save(p1);
+        
+        return ResponseEntity.ok(account1.getProducts());
     }
 
     @GetMapping("/token")

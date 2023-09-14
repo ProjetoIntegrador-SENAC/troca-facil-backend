@@ -5,6 +5,8 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity(name = "Account")
 @Table(name = "accounts")
 @Getter
@@ -34,6 +36,9 @@ public class Account {
     @Column(length = 16)
     // anotação para unico
     private String document;
+
+    @OneToMany(mappedBy = "account")
+    private List<Product> products;
 
     public Account(AccountDto accountDto){
         this.name = accountDto.name();
