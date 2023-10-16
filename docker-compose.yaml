@@ -1,0 +1,38 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest  # Imagem oficial do MySQL do Docker Hub
+    container_name: mysql-troca-facil  # Nome do contêiner (opcional)
+    ports:
+      - "3312:3312"  # Mapeia a porta 3306 do host para a porta 3306 do contêiner
+    environment:
+      MYSQL_ROOT_PASSWORD: root123  # Senha do usuário root do MySQL
+      MYSQL_DATABASE: troca-facil  # Nome do banco de dados a ser criado (opcional)
+    volumes:
+      - /caminho/local/para/dados/mysql:/var/lib/mysql  # Mapeia um volume para persistência de dados (opcional)
+
+  discovery:
+    build: ./discovery
+    #image: discovery:1.0
+    ports:
+      - "8761:8761"
+    
+  # gateway:
+  #   image: gateway:1.0
+  #   ports:
+  #     - "8080:8080"
+  principal:
+    build: ./principal
+    #image: principal:1.0
+    ports:
+      - "3000:3000"
+    depends_on:
+      - discovery
+      # - gateway
+
+  authentication:
+    build: ./authentication
+    ports:
+      - "8051:8051"
+    depends_on:
+      - mysql
