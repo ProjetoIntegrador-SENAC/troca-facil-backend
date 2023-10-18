@@ -1,2 +1,4 @@
-package br.com.trocafacil.ems.domain.entity;public class Tasks {
+package br.com.trocafacil.ems.domain.entity;
+
+public class Tasks {
 }

@@ -1,6 +1,6 @@
 package br.com.trocafacil.authentication.infra.security;
 
-import br.com.trocafacil.model.repository.UserRepository;
+import br.com.trocafacil.authentication.model.repository.LoginRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
 
     @Autowired
-    private UserRepository userRepository;
+    private LoginRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

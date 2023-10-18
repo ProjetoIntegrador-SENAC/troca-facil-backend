@@ -1,6 +1,6 @@
 package br.com.trocafacil.authentication.infra.security;
 
-import br.com.trocafacil.model.entity.User;
+import br.com.trocafacil.authentication.model.entity.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

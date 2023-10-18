@@ -1,17 +1,10 @@
 package br.com.trocafacil.authentication.model.controller;
 
 import br.com.trocafacil.authentication.infra.security.JwtService;
-import br.com.trocafacil.model.dto.AccountDto;
-import br.com.trocafacil.model.dto.LoginDto;
-import br.com.trocafacil.model.dto.TokenDto;
-import br.com.trocafacil.model.entity.Account;
-import br.com.trocafacil.model.entity.Product;
-import br.com.trocafacil.model.entity.User;
-import br.com.trocafacil.model.repository.ProductRepository;
-import br.com.trocafacil.model.repository.UserRepository;
-import br.com.trocafacil.model.service.AccountService;
+import br.com.trocafacil.authentication.model.entity.User;
+import br.com.trocafacil.authentication.model.entity.dto.TokenDto;
+import br.com.trocafacil.authentication.model.repository.LoginRepository;
 import jakarta.transaction.Transactional;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,8 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("auth")
@@ -33,17 +24,12 @@ public class AuthenticationController {
     private JwtService jwtService;
 
     @Autowired
-    private UserRepository userRepository;
+    private LoginRepository userRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private AccountService accountService;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody @Validated LoginDto login){
-        var token = new UsernamePasswordAuthenticationToken(login.login(), login.password());
+    public ResponseEntity<TokenDto> login(@RequestBody @Validated User login){
+        var token = new UsernamePasswordAuthenticationToken(login.getLogin(), login.getPassword());
 
         // Por debaixo dos panos, esse objeto do spring chama o AuthenticationService
         var authentication = authenticationManager.authenticate(token);
@@ -51,30 +37,32 @@ public class AuthenticationController {
         String tokenJwt = jwtService.generateToken((User) authentication.getPrincipal());
 
         return ResponseEntity.ok(new TokenDto(tokenJwt));
+
     }
 
     @PostMapping("/register")
     @Transactional
-    public ResponseEntity<List<Product>> register(@RequestBody @Validated LoginDto login){
-        if(userRepository.findByLogin(login.login()) != null) return ResponseEntity.badRequest().build();
+    public ResponseEntity<User> register(@RequestBody @Validated User user){
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(login.password());
+        if(userRepository.findByLogin(user.getLogin()) != null) return ResponseEntity.badRequest().build();
 
-        User user = new User(login.login(), encryptedPassword);
+        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
 
-        this.userRepository.save(user);
+        var login = new User(user.getLogin(), encryptedPassword);
 
-        AccountDto account = new AccountDto(login.name(), login.surname(), user, login.document());
+        this.userRepository.save(login);
 
-        this.accountService.save(account);
-
-        // TESTE BÁSICO PARA O FUNCIONAMENTO DE UM PRODUTO
-
-        var account1 = this.accountService.findByDocument(login.document());
-        Product p1 = new Product(null, "Teste", "Teste", "teste", "teste", account1);
-        this.productRepository.save(p1);
+//        AccountDto account = new AccountDto(login.name(), login.surname(), user, login.document());
+//
+//        this.accountService.save(account);
+//
+//        // TESTE BÁSICO PARA O FUNCIONAMENTO DE UM PRODUTO
+//
+//        var account1 = this.accountService.findByDocument(login.document());
+//        Product p1 = new Product(null, "Teste", "Teste", "teste", "teste", account1);
+//        this.productRepository.save(p1);
         
-        return ResponseEntity.ok(account1.getProducts());
+        return ResponseEntity.ok(login);
     }
 
     @GetMapping("/token")
