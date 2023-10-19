@@ -13,26 +13,52 @@ services:
 
   discovery:
     build: ./discovery
+    environment:
+      MYSQL_URL: jdbc:mysql://localhost:3312
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root123
     #image: discovery:1.0
     ports:
       - "8761:8761"
     
-  # gateway:
-  #   image: gateway:1.0
-  #   ports:
-  #     - "8080:8080"
+  gateway:
+    image: gateway:1.0
+    ports:
+      - "8080:8080"
   principal:
     build: ./principal
+    environment:
+      MYSQL_URL: jdbc:mysql://localhost:3312
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root123
     #image: principal:1.0
     ports:
       - "3000:3000"
     depends_on:
       - discovery
+      - mysql
       # - gateway
 
   authentication:
     build: ./authentication
+    environment:
+      MYSQL_URL: jdbc:mysql://localhost:3312
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root123
     ports:
       - "8051:8051"
     depends_on:
       - mysql
+      - discovery
+  
+  ems:
+    build: ./authentication
+    environment:
+      MYSQL_URL: jdbc:mysql://localhost:3312
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root123
+    ports:
+      - "8052:8052"
+    depends_on:
+      - mysql
+      - discovery

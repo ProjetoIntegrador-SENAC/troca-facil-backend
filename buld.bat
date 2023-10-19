@@ -1,0 +1,19 @@
+@echo off
+echo build authentication
+cd authentication 
+mvn package
+cd ..
+cd discovery 
+mvn package
+cd ..
+cd principal 
+mvn package
+cd ..
+cd gateway 
+mvn package
+cd ..
+cd discovery 
+mvn package
+cd ..
+cd ems 
+mvn package
