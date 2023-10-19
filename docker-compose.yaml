@@ -12,7 +12,7 @@ services:
       - /caminho/local/para/dados/mysql:/var/lib/mysql  # Mapeia um volume para persistência de dados (opcional)
 
   discovery:
-    build: ./discovery
+    build: ./ems
     environment:
       MYSQL_URL: jdbc:mysql://localhost:3312
       MYSQL_USER: root
