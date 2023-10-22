@@ -3,9 +3,9 @@ server:
 
 spring:
   application:
-    name: principal-ms
+    name: principal
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${DISCOVERY_SERVER}

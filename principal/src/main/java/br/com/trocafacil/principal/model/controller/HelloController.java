@@ -6,11 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/hello")
+@RequestMapping
 public class HelloController {
 
-    @GetMapping
+    // @Value("${MSG_EXIBIR}")
+    // private String msgExibir;
+
+    @GetMapping("/")
     public ResponseEntity<String> getHello(){
-        return ResponseEntity.ok("hello");
+        String msgExibir = System.getenv("MSG_EXIBIR");
+        return ResponseEntity.ok("Ai sim! " + msgExibir);
     }
 }
