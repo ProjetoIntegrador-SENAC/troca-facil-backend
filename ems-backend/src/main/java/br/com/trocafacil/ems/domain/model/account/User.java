@@ -1,4 +1,4 @@
-package br.com.trocafacil.ems.domain.model;
+package br.com.trocafacil.ems.domain.model.account;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;

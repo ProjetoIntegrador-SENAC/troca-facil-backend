@@ -1,7 +1,7 @@
 package br.com.trocafacil.ems.apps.trade.controller;
 
 import br.com.trocafacil.ems.apps.trade.repository.ItemRepository;
-import br.com.trocafacil.ems.domain.model.Item;
+import br.com.trocafacil.ems.domain.model.product.Product;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +19,15 @@ public class ItemController {
     private ItemRepository itemRepository;
 
     @PostMapping("/item")
-    public ResponseEntity<Item> save(@RequestBody @Valid  Item item){
-        Item nItem = itemRepository.save(item);
+    public ResponseEntity<Product> save(@RequestBody @Valid Product item){
+        Product nItem = itemRepository.save(item);
         URI location= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(nItem.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @GetMapping("/item")
-    public ResponseEntity<List<Item>> readAll(){
-        List<Item> items = itemRepository.findAll();
+    public ResponseEntity<List<Product>> readAll(){
+        List<Product> items = itemRepository.findAll();
         return ResponseEntity.ok(items);
     }
 

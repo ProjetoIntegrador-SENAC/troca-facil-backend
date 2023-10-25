@@ -1,7 +1,7 @@
 package br.com.trocafacil.ems.apps.auth.controller;
 
-import br.com.trocafacil.ems.domain.model.User;
-import br.com.trocafacil.ems.domain.model.dto.TokenDto;
+import br.com.trocafacil.ems.domain.model.account.User;
+import br.com.trocafacil.ems.domain.model.token.TokenDto;
 import br.com.trocafacil.ems.apps.auth.repository.LoginRepository;
 import br.com.trocafacil.ems.apps.auth.service.JwtService;
 import jakarta.transaction.Transactional;

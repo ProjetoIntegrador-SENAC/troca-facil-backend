@@ -1,4 +1,5 @@
-package br.com.trocafacil.ems.domain.model;
+package br.com.trocafacil.ems.domain.model.trade;
+
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,11 +11,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Trade {
+public class Tasks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long id_product_posted_id;
-    private long id_product_proposal;
-    private String status;
+    private String tipo;
 }

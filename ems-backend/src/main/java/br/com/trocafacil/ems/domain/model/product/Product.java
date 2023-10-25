@@ -1,7 +1,5 @@
-package br.com.trocafacil.ems.domain.model;
+package br.com.trocafacil.ems.domain.model.product;
 
-import br.com.trocafacil.ems.apps.trade.enums.Condition;
-import br.com.trocafacil.ems.apps.trade.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,7 +14,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Item {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -25,7 +23,7 @@ public class Item {
     private String account_id;
 
     @NotNull
-    private String product;
+    private String name;
 
     @NotNull
     private BigDecimal price;
@@ -40,6 +38,5 @@ public class Item {
     private String status;
     private String category;
     private String subCategory;
-    private String cep;
 
 }
