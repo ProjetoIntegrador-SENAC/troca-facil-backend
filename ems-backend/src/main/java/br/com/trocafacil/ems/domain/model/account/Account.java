@@ -33,6 +33,10 @@ public class Account {
     private User user;
 
     @Nonnull
+    @OneToOne
+    private Address address;
+
+    @Nonnull
     @Column(length = 16)
     // anotação para unico
     private String document;
