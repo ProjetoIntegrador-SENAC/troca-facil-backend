@@ -1,6 +1,9 @@
 package br.com.trocafacil.ems.domain.model.trade;
 
+import br.com.trocafacil.ems.domain.helpers.enums.Status;
+import br.com.trocafacil.ems.domain.model.product.Product;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity(name = "Trade")
@@ -11,10 +14,20 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Trade {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private long id_product_posted_id;
-    private long id_product_proposal;
-    private String status;
+    @Column(name = "TRADE_ID")
+    private Long trade_id;
+
+    @ManyToOne
+    @NotNull
+    private Product product_posted;
+
+    @ManyToOne
+    @NotNull
+    private Product product_proposal;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

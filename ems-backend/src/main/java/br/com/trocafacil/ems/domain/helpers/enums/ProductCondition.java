@@ -1,6 +1,6 @@
 package br.com.trocafacil.ems.domain.helpers.enums;
 
-public enum Condition {
+public enum ProductCondition {
     BOM,
     OTIMO,
     EXCELENTE

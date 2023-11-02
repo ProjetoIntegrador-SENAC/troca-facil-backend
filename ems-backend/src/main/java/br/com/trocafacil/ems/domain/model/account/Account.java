@@ -1,14 +1,15 @@
 package br.com.trocafacil.ems.domain.model.account;
 
-import br.com.trocafacil.ems.domain.model.product.Product;
+//import br.com.trocafacil.ems.domain.model.product.Product;
+//import br.com.trocafacil.ems.domain.model.trade.Notification;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Entity(name = "Account")
-@Table(name = "accounts")
+@Table(name = "account")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,8 +18,8 @@ import java.util.List;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Nonnull
     @Column(length = 100)
@@ -32,22 +33,18 @@ public class Account {
     @OneToOne
     private User user;
 
-    @Nonnull
-    @OneToOne
-    private Address address;
+//    @Nonnull
+//    @OneToOne
+//    private Address address;
 
     @Nonnull
     @Column(length = 16)
-    // anotação para unico
     private String document;
 
-    @OneToMany(mappedBy = "account")
-    private List<Product> products;
+//    @ManyToOne
+//    private Notification notification;
 
-//    public Account(AccountDto accountDto){
-//        this.name = accountDto.name();
-//        this.surname = accountDto.surname();
-//        this.document = accountDto.document();
-//        this.user= accountDto.user();
-//    }
+//    @OneToMany(mappedBy = "id")
+//    private ArrayList<Product> products;
+
 }

@@ -1,6 +1,5 @@
 package br.com.trocafacil.ems.domain.model.account;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -16,17 +15,16 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+    @NotNull
+    @OneToOne
+    private Account account;
 
     @NotNull
     private String cep;
 
     @NotNull
     private int numero;
-
-    @NotNull
-    @OneToOne
-    private Account account;
-
 
 }
