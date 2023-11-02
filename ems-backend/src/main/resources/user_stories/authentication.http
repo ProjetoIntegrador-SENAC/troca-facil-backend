@@ -1,0 +1,17 @@
+### Registrar usuário
+POST http://localhost:8050/auth/register
+Content-Type: application/json
+
+{
+    "login": "ribejho5@senac.com.br",
+    "password": "123"
+}
+
+### Pegar token
+POST http://localhost:8050/auth/login
+Content-Type: application/json
+
+{
+    "login": "ribejho5@senac.com.br",
+    "password": "123"
+}
