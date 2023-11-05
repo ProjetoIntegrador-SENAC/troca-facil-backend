@@ -1,10 +1,11 @@
 package br.com.trocafacil.ems.domain.model.account;
 
-//import br.com.trocafacil.ems.domain.model.product.Product;
+import br.com.trocafacil.ems.domain.model.product.Product;
 //import br.com.trocafacil.ems.domain.model.trade.Notification;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.ArrayList;
 
@@ -33,18 +34,15 @@ public class Account {
     @OneToOne
     private User user;
 
-//    @Nonnull
-//    @OneToOne
-//    private Address address;
+    @Nonnull
+    @OneToOne
+    private Address address;
 
     @Nonnull
-    @Column(length = 16)
+    @Column(length = 16, unique = true)
     private String document;
 
-//    @ManyToOne
-//    private Notification notification;
-
-//    @OneToMany(mappedBy = "id")
+//    @OneToMany(mappedBy = "account")
 //    private ArrayList<Product> products;
 
 }

@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity(name = "Trade")
 @Table(name = "trades")
 @Getter
@@ -17,15 +19,22 @@ public class Trade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TRADE_ID")
-    private Long trade_id;
+    private Long id;
+
+    @Temporal(TemporalType.DATE)
+    private Date create_date;
+
+    @Temporal(TemporalType.DATE)
+    private Date settle_date;
 
     @ManyToOne
     @NotNull
+    @JoinColumn(name = "product_posted_id")
     private Product product_posted;
 
     @ManyToOne
     @NotNull
+    @JoinColumn(name = "product_proposal_id")
     private Product product_proposal;
 
     @Enumerated(EnumType.STRING)

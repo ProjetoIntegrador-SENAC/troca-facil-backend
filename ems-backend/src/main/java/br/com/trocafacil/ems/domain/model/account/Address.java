@@ -17,9 +17,9 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @OneToOne
-    private Account account;
+//    @NotNull
+//    @OneToOne
+//    private Account account;
 
     @NotNull
     private String cep;

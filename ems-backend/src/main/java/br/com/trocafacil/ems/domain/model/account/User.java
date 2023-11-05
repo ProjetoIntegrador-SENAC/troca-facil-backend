@@ -24,6 +24,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Nonnull
+    @Column(unique = true)
     private String login;
 
     @Nonnull

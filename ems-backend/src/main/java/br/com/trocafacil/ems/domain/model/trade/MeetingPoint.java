@@ -3,6 +3,7 @@ package br.com.trocafacil.ems.domain.model.trade;
 
 import br.com.trocafacil.ems.domain.helpers.enums.DeliveryStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity(name = "MeetingPoint")
@@ -15,7 +16,12 @@ import lombok.*;
 public class MeetingPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+    @OneToOne
+    @NotNull
+    private Trade trade;
+
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 }
