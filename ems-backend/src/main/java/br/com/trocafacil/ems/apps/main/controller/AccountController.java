@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("account")
-@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+//@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 public class AccountController {
 
     @Autowired
@@ -32,14 +32,12 @@ public class AccountController {
     @GetMapping("/findall")
     public ResponseEntity<ArrayList<Account>> findAll(){
 
-//      String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzZW5hYy1waSIsInN1YiI6InJpYmVqaG81QHNlbmFjLmNvbS5iciIsImV4cCI6MTY5OTIxMzc4M30.QNfZovuELupzFVNjJdK6889ZPzdRUmOzwIJjEwF_3uQ";
-//      jwtService.getUserByToken(token);
         ArrayList<Account> accounts = (ArrayList<Account>) this.accountRepository.findAll();
         return ResponseEntity.ok(accounts);
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Account> find(@PathVariable String id){
+    public ResponseEntity<Account> find(@PathVariable Long id){
         Optional<Account> account = this.accountRepository.findById(id);
         if (account.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -56,12 +54,19 @@ public class AccountController {
     }
 
     @GetMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable String id){
+    public ResponseEntity delete(@PathVariable Long id){
         try {
             this.accountRepository.deleteById(id);
         }catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();
-        }
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Account> update(@RequestBody @Valid Account account){
+        Account account1 = this.accountRepository.save(account);
+        return ResponseEntity.ok(account1);
+    }
+
 }
