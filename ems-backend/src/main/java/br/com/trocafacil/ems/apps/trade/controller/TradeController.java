@@ -43,8 +43,10 @@ public class TradeController {
         //TODO SETAR DEMAIS TRADES PARA STATUS CANCELADO/RECUSADO
 
     @GetMapping("/accept")
-    public ResponseEntity<Trade> accept(){
+    public ResponseEntity<Trade> accept(@PathVariable Long id){
         // TODO --- INCLUIR VALIDAÇÃO SE USUÁRIO PODE ACEITAR. MODIFICAR O STATUS DA REQUISICAO
+
+        return ResponseEntity.noContent().build();
     }
 
 
