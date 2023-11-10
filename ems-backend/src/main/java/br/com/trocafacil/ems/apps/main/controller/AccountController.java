@@ -3,20 +3,28 @@ package br.com.trocafacil.ems.apps.main.controller;
 import br.com.trocafacil.ems.apps.auth.service.JwtService;
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.apps.main.repository.AddressRepository;
+import br.com.trocafacil.ems.apps.main.service.MyBlobService;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.Address;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.WritableResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("account")
+@Slf4j
 //@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 public class AccountController {
 
@@ -28,6 +36,9 @@ public class AccountController {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private MyBlobService myBlobService;
 
     @GetMapping("/findall")
     public ResponseEntity<ArrayList<Account>> findAll(){
@@ -46,7 +57,7 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Account> create(@Valid @RequestBody Account account){
+    public ResponseEntity<Account> create(@Valid @RequestBody Account account) {
         Address address = addressRepository.save(account.getAddress());
         account.setAddress(address);
         Account accCreated = this.accountRepository.save(account);
@@ -67,6 +78,17 @@ public class AccountController {
     public ResponseEntity<Account> update(@RequestBody @Valid Account account){
         Account account1 = this.accountRepository.save(account);
         return ResponseEntity.ok(account1);
+    }
+
+
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        log.info("Filename :" + file.getOriginalFilename());
+        log.info("Size:" + file.getSize());
+        log.info("Contenttype:" + file.getContentType());
+        myBlobService.storeFile(file.getOriginalFilename(),file.getInputStream(), file.getSize());
+        return file.getOriginalFilename() + " Has been saved as a blob-item!!!";
+
     }
 
 }
