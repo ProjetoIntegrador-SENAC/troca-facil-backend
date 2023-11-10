@@ -42,10 +42,10 @@ public class TradeController {
         //TODO ATUALIZAR TABELA DELIVERY
         //TODO SETAR DEMAIS TRADES PARA STATUS CANCELADO/RECUSADO
 
-    /*@GetMapping("/accept")
+    @GetMapping("/accept")
     public ResponseEntity<Trade> accept(){
         // TODO --- INCLUIR VALIDAÇÃO SE USUÁRIO PODE ACEITAR. MODIFICAR O STATUS DA REQUISICAO
-    } */
+    }
 
 
 }
