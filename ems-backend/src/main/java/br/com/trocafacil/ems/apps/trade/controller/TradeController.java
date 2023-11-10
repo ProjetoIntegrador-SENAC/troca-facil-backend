@@ -45,7 +45,6 @@ public class TradeController {
     @GetMapping("/accept")
     public ResponseEntity<Trade> accept(@PathVariable Long id){
         // TODO --- INCLUIR VALIDAÇÃO SE USUÁRIO PODE ACEITAR. MODIFICAR O STATUS DA REQUISICAO
-
         return ResponseEntity.noContent().build();
     }
 
