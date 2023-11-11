@@ -1,6 +1,7 @@
 package br.com.trocafacil.ems.apps.trade.controller;
 
 import br.com.trocafacil.ems.apps.trade.repository.TradeRepository;
+import br.com.trocafacil.ems.apps.trade.service.TradeService;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -15,6 +16,9 @@ public class TradeController {
     @Autowired
     private TradeRepository tradeRepository;
 
+    @Autowired
+    private TradeService tradeService;
+
     //TODO POST ABRIR NEGOCIACAO {DATA_ABERTURA(DT_REQUISICAO), PRODUTO_ALVO, PRODUTO_TROCA, STATUS_INICIAL}
 
     @PostMapping("/create")
@@ -22,6 +26,8 @@ public class TradeController {
         Trade trade1 = tradeRepository.save(trade);
         return ResponseEntity.ok(trade1);
     }
+
+
 
     //TODO GET FAZER OFERTA POR PRODUTO
         //TODO POST
@@ -41,6 +47,12 @@ public class TradeController {
     //TODO GET ACEITAR TRADE {TRADE_ID, DATA_FECHAMENTO(DT_REQUISICAO)} --> ALTERAR OUTRAS PROPOSTAS PARA RECUSADAS.
         //TODO ATUALIZAR TABELA DELIVERY
         //TODO SETAR DEMAIS TRADES PARA STATUS CANCELADO/RECUSADO
+
+    @GetMapping
+    public ResponseEntity<Void> acceptTrade(@PathVariable Long id){
+        tradeService.acceptTrade(id);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/accept")
     public ResponseEntity<Trade> accept(@PathVariable Long id){
