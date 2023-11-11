@@ -1,5 +1,7 @@
 package br.com.trocafacil.ems.domain.model.product;
 
+import br.com.trocafacil.ems.domain.helpers.enums.ProductCondition;
+import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import jakarta.persistence.*;
@@ -42,9 +44,11 @@ public class Product {
     private Date date;
 
     @NotNull
-    private String curCondition;
-    private String urlImages;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ProductCondition curCondition;
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 
     @ManyToOne
     @NotNull

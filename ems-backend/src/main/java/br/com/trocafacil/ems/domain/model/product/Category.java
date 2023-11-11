@@ -1,6 +1,7 @@
 package br.com.trocafacil.ems.domain.model.product;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
     private String dsCategory;
 
     @OneToMany(mappedBy = "category")
