@@ -5,13 +5,14 @@ import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Product {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    @JoinColumn(name = "account_id")
     private Account account;
 
     @NotNull
@@ -38,11 +39,12 @@ public class Product {
     @NotNull
     private BigDecimal price;
 
-    @Size(min = 0, max = 50)
-    private int amount;
+    @Min(1)
+    @Max(50)
+    private Integer amount;
 
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
     @NotNull
     @Enumerated(EnumType.STRING)

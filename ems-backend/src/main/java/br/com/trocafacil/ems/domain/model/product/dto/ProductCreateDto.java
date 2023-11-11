@@ -9,37 +9,37 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 public record ProductCreateDto (
         @NotNull String name,
-        @NotNull BigDecimal price,
-        @Size(min = 1, max = 50)
+        @NotNull Double price,
         @NotNull
-        int amount,
-
-        @Temporal(TemporalType.DATE)
-        Date date,
+        Integer amount,
 
         @NotNull
         @Enumerated(EnumType.STRING)
         ProductCondition curCondition,
 
         @NotNull
-        String subCategory
+        Long subCategoryId
 
         ){
 
     public Product createProduct(Account account, SubCategory subCategory){
         Product product = new Product();
         product.setAccount(account);
-        product.setDate(this.date);
+        product.setDate(LocalDate.now());
         product.setCurCondition(this.curCondition);
-        product.setPrice(this.price);
+        product.setPrice(BigDecimal.valueOf(this.price));
         product.setStatus(ProductStatus.FECHADO);
         product.setAmount(this.amount);
         product.setSubCategory(subCategory);

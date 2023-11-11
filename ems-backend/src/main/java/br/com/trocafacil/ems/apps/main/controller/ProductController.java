@@ -10,9 +10,11 @@ import br.com.trocafacil.ems.domain.model.product.SubCategory;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductCreateDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping
-@RestController("product")
+@RestController
+@RequestMapping("product")
+@Slf4j
+@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 public class ProductController {
 
     @Autowired
@@ -33,9 +37,9 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
     @PostMapping("/create")
-    public ResponseEntity create(@Validated @RequestBody ProductCreateDto productDto, @AuthenticationPrincipal User user){
+    public ResponseEntity<Product> create(@Validated @RequestBody ProductCreateDto productDto, @AuthenticationPrincipal User user){
         Account account = accountRepository.findByUserId(user.getId());
-        SubCategory subCategory = subCategoryRepository.findByDsSubCategory(productDto.subCategory());
+        SubCategory subCategory = subCategoryRepository.findById(productDto.subCategoryId()).orElse(null);
         Product product = productDto.createProduct(account, subCategory);
         return ResponseEntity.ok(productRepository.save(product));
     }
