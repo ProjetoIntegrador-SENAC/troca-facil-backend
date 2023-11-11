@@ -42,6 +42,8 @@ public class Account {
     @Column(length = 16, unique = true)
     private String document;
 
+    private String photoPath;
+
 //    @OneToMany(mappedBy = "account")
 //    private ArrayList<Product> products;
 
