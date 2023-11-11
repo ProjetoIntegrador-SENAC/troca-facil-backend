@@ -1,5 +1,7 @@
 package br.com.trocafacil.ems.domain.model.product;
 
+import br.com.trocafacil.ems.domain.helpers.enums.ProductCondition;
+import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import jakarta.persistence.*;
@@ -11,6 +13,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "product")
 @Table(name = "product")
@@ -42,9 +45,11 @@ public class Product {
     private Date date;
 
     @NotNull
-    private String curCondition;
-    private String urlImages;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ProductCondition curCondition;
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 
     @ManyToOne
     @NotNull
@@ -57,9 +62,6 @@ public class Product {
     private SubCategory subCategory;
 
     @OneToMany(mappedBy = "product_posted")
-    private ArrayList<Trade> trades_posted;
-
-//    @OneToMany(mappedBy = "product_posted")
-//    private ArrayList<Trade> trades;
+    private List<Trade> trades_posted;
 
 }

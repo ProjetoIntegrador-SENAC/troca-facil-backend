@@ -3,9 +3,12 @@ package br.com.trocafacil.ems.apps.main.controller;
 import br.com.trocafacil.ems.apps.auth.service.JwtService;
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.apps.main.repository.AddressRepository;
+import br.com.trocafacil.ems.apps.main.repository.UserRepository;
 import br.com.trocafacil.ems.apps.main.service.MyBlobService;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.Address;
+import br.com.trocafacil.ems.domain.model.account.User;
+import br.com.trocafacil.ems.domain.model.account.dto.AccountCreateDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j;
@@ -26,18 +29,18 @@ import java.util.Optional;
 @RestController
 @RequestMapping("account")
 @Slf4j
-//@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 public class AccountController {
 
+
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private AccountRepository accountRepository;
-
     @Autowired
     private AddressRepository addressRepository;
-
     @Autowired
     private JwtService jwtService;
-
     @Autowired
     private MyBlobService myBlobService;
 
@@ -58,10 +61,10 @@ public class AccountController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Account> create(@Valid @RequestBody Account account) {
-        Address address = addressRepository.save(account.getAddress());
-        account.setAddress(address);
-        Account accCreated = this.accountRepository.save(account);
+    public ResponseEntity<Account> create(@Valid @RequestBody AccountCreateDto accountDto, @AuthenticationPrincipal User user) {
+        Account account = accountDto.createAccount(user);
+        addressRepository.save(accountDto.address());
+        Account accCreated = accountRepository.save(account);
         return ResponseEntity.ok(accCreated);
     }
 
