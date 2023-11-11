@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "SubCategory")
 @Table(name = "sub_category")
@@ -27,7 +28,7 @@ public class SubCategory {
     @Nonnull
     private Category category;
 
-    @OneToMany(mappedBy = "subCategory")
-    private ArrayList<Product> products;
+    @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products;
 
 }

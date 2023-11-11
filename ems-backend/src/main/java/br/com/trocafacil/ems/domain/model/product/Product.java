@@ -13,6 +13,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "product")
 @Table(name = "product")
@@ -61,9 +62,6 @@ public class Product {
     private SubCategory subCategory;
 
     @OneToMany(mappedBy = "product_posted")
-    private ArrayList<Trade> trades_posted;
-
-//    @OneToMany(mappedBy = "product_posted")
-//    private ArrayList<Trade> trades;
+    private List<Trade> trades_posted;
 
 }
