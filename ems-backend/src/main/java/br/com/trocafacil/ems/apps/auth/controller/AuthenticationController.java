@@ -52,16 +52,6 @@ public class AuthenticationController {
         var login = new User(user.getLogin(), encryptedPassword);
 
         this.userRepository.save(login);
-
-//        AccountDto account = new AccountDto(login.name(), login.surname(), user, login.document());
-//
-//        this.accountService.save(account);
-//
-//        // TESTE BÁSICO PARA O FUNCIONAMENTO DE UM PRODUTO
-//
-//        var account1 = this.accountService.findByDocument(login.document());
-//        Product p1 = new Product(null, "Teste", "Teste", "teste", "teste", account1);
-//        this.productRepository.save(p1);
         
         return ResponseEntity.ok(login);
     }

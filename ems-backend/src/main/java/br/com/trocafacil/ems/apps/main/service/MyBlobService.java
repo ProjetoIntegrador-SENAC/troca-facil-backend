@@ -1,5 +1,6 @@
 package br.com.trocafacil.ems.apps.main.service;
 
+import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import com.azure.core.http.HttpClient;
 import com.azure.core.util.Header;
 import com.azure.core.util.HttpClientOptions;
@@ -20,8 +21,13 @@ import java.io.InputStream;
 @Slf4j
 public class MyBlobService {
 
+    private static String basePath = "https://trocafacilstorage.blob.core.windows.net/testcontainer/";
     @Autowired
     private final AzureBlobProperties azureBlobProperties;
+
+
+    @Autowired
+    private AccountService accountService;
 
     private BlobContainerClient containerClient() {
 
@@ -34,7 +40,7 @@ public class MyBlobService {
         return container;
     }
 
-    public String storeFile(String filename, InputStream content, long length) {
+    public String storeFile(String filename, InputStream content, long length, Long id) {
         log.info("Azure store file BEGIN {}", filename);
         BlobClient client = containerClient().getBlobClient(filename);
         if (client.exists()) {
@@ -42,8 +48,11 @@ public class MyBlobService {
         } else {
             client.upload(content, length);
         }
-
         log.info("Azure store file END");
+        log.info("Saving image path in database");
+
+        log.info(accountService.saveImage(id, basePath.concat(filename)));
+
         return "File uploaded with success!";
     }
 

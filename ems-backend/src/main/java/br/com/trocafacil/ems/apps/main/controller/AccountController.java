@@ -86,13 +86,13 @@ public class AccountController {
 
 
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        log.info("Filename :" + file.getOriginalFilename());
+    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("id") String id) throws IOException {
+        log.info("Filename: " + file.getOriginalFilename());
         log.info("Size:" + file.getSize());
-        log.info("Contenttype:" + file.getContentType());
-        myBlobService.storeFile(file.getOriginalFilename(),file.getInputStream(), file.getSize());
+        log.info("Content-type: " + file.getContentType());
+        var idLong = Long.parseLong(id);
+        myBlobService.storeFile(file.getOriginalFilename(),file.getInputStream(), file.getSize(), idLong);
         return file.getOriginalFilename() + " Has been saved as a blob-item!!!";
-
     }
 
 }
