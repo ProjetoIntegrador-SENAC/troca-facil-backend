@@ -56,7 +56,7 @@ public class SecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        config.applyPermitDefaultValues(); // Aplica as configurações padrão
+        config.applyPermitDefaultValues().addAllowedOrigin("*"); // Aplica as configurações padrão
         source.registerCorsConfiguration("/**", config);
         return source;
     }
