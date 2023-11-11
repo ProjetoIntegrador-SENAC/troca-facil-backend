@@ -11,4 +11,7 @@ import org.springframework.stereotype.Component;
 public class AzureBlobProperties {
     private String connectionstring;
     private String container;
+    private String accountname;
+    private String accountkey;
+
 }

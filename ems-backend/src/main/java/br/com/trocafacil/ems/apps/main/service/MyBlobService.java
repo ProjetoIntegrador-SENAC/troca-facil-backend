@@ -1,9 +1,13 @@
 package br.com.trocafacil.ems.apps.main.service;
 
+import com.azure.core.http.HttpClient;
+import com.azure.core.util.Header;
+import com.azure.core.util.HttpClientOptions;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.common.StorageSharedKeyCredential;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +24,11 @@ public class MyBlobService {
     private final AzureBlobProperties azureBlobProperties;
 
     private BlobContainerClient containerClient() {
-        BlobServiceClient serviceClient = new BlobServiceClientBuilder().endpoint(azureBlobProperties.getConnectionstring()).buildClient();
+
+        BlobServiceClient serviceClient = new BlobServiceClientBuilder()
+                .endpoint(azureBlobProperties.getConnectionstring())
+                .credential(new StorageSharedKeyCredential(azureBlobProperties.getAccountname(), azureBlobProperties.getAccountkey()))
+                .buildClient();
 
         BlobContainerClient container = serviceClient.getBlobContainerClient(azureBlobProperties.getContainer());
         return container;
