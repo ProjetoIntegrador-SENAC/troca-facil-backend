@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "User")
 @Table(name = "users")
@@ -30,15 +31,17 @@ public class User implements UserDetails {
     @Nonnull
     private String password;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> authorities;
+
     public User(String login, String password) {
         this.login = login;
         this.password = password;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Por enquanto, todos os usuários são do mesmo tipo
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
