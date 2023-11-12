@@ -1,14 +1,20 @@
 package br.com.trocafacil.ems.apps.trade.service;
 
+import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
+import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.apps.main.service.ProductService;
 import br.com.trocafacil.ems.apps.trade.repository.TradeRepository;
 import br.com.trocafacil.ems.domain.helpers.enums.Status;
+import br.com.trocafacil.ems.domain.model.account.Account;
+import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
+import br.com.trocafacil.ems.domain.model.trade.dto.TradeCreateDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +25,17 @@ import java.util.Optional;
 public class TradeService {
 
     @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
     private TradeRepository tradeRepository;
 
     @Autowired
     private ProductService productService;
 
+    @Transactional
     public void acceptTrade(Long id){
         Optional<Trade> tradeOptional = tradeRepository.findById(id);
 
@@ -40,6 +52,7 @@ public class TradeService {
 
     }
 
+    @Transactional
     private void closeTrades(Trade trade){
         Product productPosted = trade.getProductPosted();
         Product productProprosal = trade.getProductProposal();
@@ -59,4 +72,40 @@ public class TradeService {
         }
         productService.updateProductsToCancelled(productsToUpdate);
     }
+
+    @Transactional
+    public Trade create(TradeCreateDto tradeDto, User user){
+        Trade tradeVerify = getTradeByIds(tradeDto.productPostedId(), tradeDto.productProposalId());
+        if(!(tradeVerify == null)){
+            tradeVerify.setStatus(Status.EM_NEGOCIACAO);
+            return tradeRepository.save(tradeVerify);
+        }
+
+        Account account = accountRepository.findByUserId(user.getId());
+        Product productProposal = productRepository.findById(tradeDto.productProposalId()).orElseThrow();
+        Product productPosted = productRepository.findById(tradeDto.productPostedId()).orElseThrow();
+
+        if (!(productProposal.getAccount().getId() == account.getId())){
+            throw new EntityNotFoundException("");
+        }
+
+        Trade trade = tradeDto.createTrade(productProposal, productPosted);
+        return tradeRepository.save(trade);
+    }
+
+    @Transactional
+    public Trade getTradeByIds(Long productPostedId, Long productProposalId){
+        Optional<Trade> trade = tradeRepository.findByProductPostedIdAndProductProposalIdOrProductPostedIdAndProductProposalId(
+                productPostedId, productProposalId,
+                productProposalId, productPostedId
+        );
+
+        if (trade.isPresent()){
+            return trade.get();
+        }
+
+        return null;
+
+    }
+
 }

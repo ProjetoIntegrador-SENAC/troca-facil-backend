@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity(name = "Trade")
 @Table(name = "trades")
@@ -22,10 +22,10 @@ public class Trade {
     private Long id;
 
     @Temporal(TemporalType.DATE)
-    private Date create_date;
+    private LocalDate createDate;
 
     @Temporal(TemporalType.DATE)
-    private Date settle_date;
+    private LocalDate settleDate;
 
     @ManyToOne
     @NotNull
