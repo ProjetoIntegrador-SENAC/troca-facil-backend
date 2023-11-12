@@ -5,9 +5,6 @@ import br.com.trocafacil.ems.domain.model.product.Product;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
-
-import java.util.ArrayList;
 
 @Entity(name = "Account")
 @Table(name = "account")

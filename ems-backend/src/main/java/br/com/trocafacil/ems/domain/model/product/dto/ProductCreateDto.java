@@ -9,10 +9,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
@@ -20,6 +17,8 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public record ProductCreateDto (
+
+        Long id,
         @NotNull String name,
         @NotNull Double price,
         @NotNull
@@ -45,6 +44,11 @@ public record ProductCreateDto (
         product.setSubCategory(subCategory);
         product.setCategory(subCategory.getCategory());
         product.setName(this.name);
+
+        if(!(this.id == null)){
+            product.setId(this.id);
+        }
+
         return product;
     }
 
