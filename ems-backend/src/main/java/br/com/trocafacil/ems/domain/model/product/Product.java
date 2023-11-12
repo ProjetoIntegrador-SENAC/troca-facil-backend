@@ -63,7 +63,7 @@ public class Product {
     @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
 
-    @OneToMany(mappedBy = "product_posted")
-    private List<Trade> trades_posted;
+    @OneToMany(mappedBy = "productPosted")
+    private List<Trade> tradesPosted;
 
 }

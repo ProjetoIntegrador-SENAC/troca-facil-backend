@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface TradeRepository extends JpaRepository<Trade, Long> {
 
-    List<Trade> findByProduct_posted(Product product);
+    List<Trade> findByProductPostedId(Long id);
 }

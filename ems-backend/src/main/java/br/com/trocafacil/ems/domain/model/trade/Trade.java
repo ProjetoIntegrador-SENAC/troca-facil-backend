@@ -30,12 +30,12 @@ public class Trade {
     @ManyToOne
     @NotNull
     @JoinColumn(name = "product_posted_id")
-    private Product product_posted;
+    private Product productPosted;
 
     @ManyToOne
     @NotNull
     @JoinColumn(name = "product_proposal_id")
-    private Product product_proposal;
+    private Product productProposal;
 
     @Enumerated(EnumType.STRING)
     private Status status;

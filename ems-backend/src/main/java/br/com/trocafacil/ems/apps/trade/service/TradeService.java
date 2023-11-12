@@ -41,20 +41,20 @@ public class TradeService {
     }
 
     private void closeTrades(Trade trade){
-        Product productPosted = trade.getProduct_posted();
-        Product productProprosal = trade.getProduct_proposal();
+        Product productPosted = trade.getProductPosted();
+        Product productProprosal = trade.getProductProposal();
 
         productService.updateProductToExchanged(productPosted);
         productService.updateProductToExchanged(productProprosal);
 
-        var trades = tradeRepository.findByProduct_posted(productPosted);
+        var trades = tradeRepository.findByProductPostedId(productPosted.getId());
         List<Product> productsToUpdate = new ArrayList<>();
         log.info("Updating other trades with the same product target");
         for (Trade trade1 : trades) {
             if (trade1.getId() != trade.getId()){
                 trade1.setStatus(Status.CANCELADO);
                 tradeRepository.save(trade1);
-                productsToUpdate.add(trade1.getProduct_posted());
+                productsToUpdate.add(trade1.getProductPosted());
             }
         }
         productService.updateProductsToCancelled(productsToUpdate);
