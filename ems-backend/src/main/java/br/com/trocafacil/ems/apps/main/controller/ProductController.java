@@ -3,11 +3,13 @@ package br.com.trocafacil.ems.apps.main.controller;
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.apps.main.repository.SubCategoryRepository;
+import br.com.trocafacil.ems.apps.main.service.ProductService;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.product.SubCategory;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductCreateDto;
+import com.azure.core.annotation.Get;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,9 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductService productService;
     @PostMapping("/create")
     public ResponseEntity<Product> create(@Validated @RequestBody ProductCreateDto productDto, @AuthenticationPrincipal User user){
         Account account = accountRepository.findByUserId(user.getId());
@@ -59,6 +64,11 @@ public class ProductController {
         List<Product>  products = productRepository.findAll();
         return ResponseEntity.ok(products);
 
+    }
+
+    @GetMapping("findall/personal")
+    public ResponseEntity<List<Product>> findAllPersonal(@AuthenticationPrincipal User user){
+        return ResponseEntity.ok().body(productService.findAllByUser(user));
     }
 
     @GetMapping("/delete/{id}")

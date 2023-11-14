@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@ToString(of= {"id", "dsCategory"})
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

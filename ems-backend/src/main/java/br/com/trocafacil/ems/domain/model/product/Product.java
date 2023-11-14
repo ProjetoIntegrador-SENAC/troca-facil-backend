@@ -24,6 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@ToString(exclude = {"tradesPosted"})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

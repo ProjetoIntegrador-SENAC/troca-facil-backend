@@ -27,4 +27,8 @@ public class AccountService {
 
         return "Profile image saved with success!";
     }
+
+    public Account getAccountByUserId(Long id){
+        return accountRepository.findByUserId(id);
+    }
 }
