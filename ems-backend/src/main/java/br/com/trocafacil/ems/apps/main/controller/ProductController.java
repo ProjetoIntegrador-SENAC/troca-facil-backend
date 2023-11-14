@@ -3,7 +3,9 @@ package br.com.trocafacil.ems.apps.main.controller;
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.apps.main.repository.SubCategoryRepository;
+import br.com.trocafacil.ems.apps.main.service.AccountService;
 import br.com.trocafacil.ems.apps.main.service.ProductService;
+import br.com.trocafacil.ems.apps.main.service.SubCategoryService;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.product.Product;
@@ -29,41 +31,32 @@ import java.util.Optional;
 @Slf4j
 @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 public class ProductController {
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private SubCategoryRepository subCategoryRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
+    private SubCategoryService subCategoryService;
 
     @Autowired
     private ProductService productService;
     @PostMapping("/create")
     public ResponseEntity<Product> create(@Validated @RequestBody ProductCreateDto productDto, @AuthenticationPrincipal User user){
-        Account account = accountRepository.findByUserId(user.getId());
-        SubCategory subCategory = subCategoryRepository.findById(productDto.subCategoryId()).orElse(null);
+        Account account = accountService.getAccountByUserId(user.getId());
+        SubCategory subCategory = subCategoryService.findById(productDto.subCategoryId());
         Product product = productDto.createProduct(account, subCategory);
-        return ResponseEntity.ok(productRepository.save(product));
+        return ResponseEntity.ok(productService.save(product));
     }
 
     @GetMapping("/find/{id}")
     public ResponseEntity<Product> find(@PathVariable Long id){
-        Optional<Product> product = productRepository.findById(id);
-
-        if (product.isEmpty()){
-            throw new EntityNotFoundException();
-        }
-        return ResponseEntity.ok(product.get());
+        Product product = productService.findById(id);
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping("/findall")
     public  ResponseEntity<List<Product>> findall(){
-        List<Product>  products = productRepository.findAll();
+        List<Product>  products = productService.findAll();
         return ResponseEntity.ok(products);
-
     }
 
     @GetMapping("findall/personal")
@@ -73,18 +66,12 @@ public class ProductController {
 
     @GetMapping("/delete/{id}")
     public void delete(@PathVariable long id){
-        this.productRepository.deleteById(id);
+        this.productService.deleteById(id);
     }
 
     @PostMapping("/update")
     public ResponseEntity<Product> update(@RequestBody @Valid Product product){
-        Product product1;
-        try {
-            product1 = this.productRepository.save(product);
-        }catch (Exception exception){
-            throw new DataIntegrityViolationException("Erro ao atualizar produto");
-        }
-
+        Product product1 = this.productService.save(product);
         return ResponseEntity.ok(product1);
     }
 

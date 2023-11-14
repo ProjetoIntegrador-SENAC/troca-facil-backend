@@ -1,6 +1,7 @@
 package br.com.trocafacil.ems.apps.main.controller;
 
 import br.com.trocafacil.ems.apps.main.repository.CategoryRepository;
+import br.com.trocafacil.ems.apps.main.service.CategoryService;
 import br.com.trocafacil.ems.domain.model.product.Category;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     @PostMapping("/create")
     public ResponseEntity<Category> create(@RequestBody @Valid Category category){
-        return ResponseEntity.ok(categoryRepository.save(category));
+        return ResponseEntity.ok(categoryService.save(category));
     }
 
 }

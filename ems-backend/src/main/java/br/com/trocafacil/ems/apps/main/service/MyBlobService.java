@@ -1,9 +1,5 @@
 package br.com.trocafacil.ems.apps.main.service;
 
-import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
-import com.azure.core.http.HttpClient;
-import com.azure.core.util.Header;
-import com.azure.core.util.HttpClientOptions;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;

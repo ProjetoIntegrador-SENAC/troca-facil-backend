@@ -2,6 +2,8 @@ package br.com.trocafacil.ems.apps.main.controller;
 
 import br.com.trocafacil.ems.apps.main.repository.CategoryRepository;
 import br.com.trocafacil.ems.apps.main.repository.SubCategoryRepository;
+import br.com.trocafacil.ems.apps.main.service.CategoryService;
+import br.com.trocafacil.ems.apps.main.service.SubCategoryService;
 import br.com.trocafacil.ems.domain.model.product.Category;
 import br.com.trocafacil.ems.domain.model.product.SubCategory;
 import br.com.trocafacil.ems.domain.model.product.dto.SubCategoryDto;
@@ -22,22 +24,18 @@ import java.util.Optional;
 public class SubCategoryController {
 
     @Autowired
-    private SubCategoryRepository subCategoryRepository;
+    private SubCategoryService subCategoryService;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     @PostMapping("/create")
     public ResponseEntity<SubCategory> create(@RequestBody @Valid SubCategoryDto subCategoryDto){
 
-        Optional<Category> category = categoryRepository.findById(subCategoryDto.category_id());
+        Category category = categoryService.findById(subCategoryDto.category_id());
 
-        if (category.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-
-        SubCategory subCategory = subCategoryDto.createSubCategory(category.get());
-        return ResponseEntity.ok(subCategoryRepository.save(subCategory));
+        SubCategory subCategory = subCategoryDto.createSubCategory(category);
+        return ResponseEntity.ok(subCategoryService.save(subCategory));
     }
 
 }
