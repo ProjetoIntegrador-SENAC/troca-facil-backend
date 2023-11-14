@@ -59,14 +59,10 @@ public class TradeController {
 
     }
 
-    //TODO GET ACEITAR TRADE {TRADE_ID, DATA_FECHAMENTO(DT_REQUISICAO)} --> ALTERAR OUTRAS PROPOSTAS PARA RECUSADAS.
-        //TODO ATUALIZAR TABELA DELIVERY
-        //TODO SETAR DEMAIS TRADES PARA STATUS CANCELADO/RECUSADO
-
     @GetMapping("/accept/{id}")
-    public ResponseEntity<Void> acceptTrade(@PathVariable Long id){
-        tradeService.acceptTrade(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Trade> acceptTrade(@PathVariable Long id){
+        var trade = tradeService.acceptTrade(id);
+        return ResponseEntity.ok().body(trade);
     }
 
 

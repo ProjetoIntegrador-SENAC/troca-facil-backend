@@ -9,6 +9,8 @@ import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.product.SubCategory;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductCreateDto;
 import br.com.trocafacil.ems.domain.model.token.TokenDto;
+import br.com.trocafacil.ems.domain.model.trade.Trade;
+import br.com.trocafacil.ems.domain.model.trade.dto.TradeCreateDto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,7 @@ class EmsApplicationTests {
 	private static TokenDto token;
 	private static HttpHeaders headers;
 	private static String baseUrl = "http://localhost:8050/";
+	private static final int TRADE_ID = 3;
 
 	@BeforeAll
 	public static void initialize(){
@@ -84,6 +87,7 @@ class EmsApplicationTests {
 		assertThat(response.getName().equals("jhon"));
 	}
 
+	//TODO: FAZER OS TESTES UNITÁRIOS PARA CREATE CATEGORY E SUBCATEGORY
 
 	@Test
 	void shouldRegisterAProductRF04() throws Exception {
@@ -102,6 +106,20 @@ class EmsApplicationTests {
 		assertThat(!products.isEmpty());
 	}
 
+	@Test
+	void createATradeShouldReturnTheIdTrade() throws Exception{
+		TradeCreateDto tradeCreateDto = new TradeCreateDto(6l, 7l);
+		HttpEntity<TradeCreateDto> httpEntity = new HttpEntity<>(tradeCreateDto, headers);
+		Trade response = restTemplate.postForObject(baseUrl.concat("trade/create"), httpEntity, Trade.class);
+		assertThat(response.getProductPosted().getId() == 6);
+		assertThat(response.getProductProposal().getId() == 7);
+	}
 
+	@Test
+	void acceptATradeShouldCloseIt() throws Exception {
+		HttpEntity<HttpHeaders> httpEntity = new HttpEntity<>(headers);
+		Trade response = restTemplate.exchange(baseUrl.concat("trade/accept/" + TRADE_ID), HttpMethod.GET, httpEntity, Trade.class).getBody();
+		assertThat(response.getStatus().equals("FECHADO"));
+	}
 
 }

@@ -36,7 +36,7 @@ public class TradeService {
     private ProductService productService;
 
     @Transactional
-    public void acceptTrade(Long id){
+    public Trade acceptTrade(Long id){
         Optional<Trade> tradeOptional = tradeRepository.findById(id);
 
         if(tradeOptional.isEmpty()){
@@ -49,6 +49,7 @@ public class TradeService {
 
         log.info("Trade has been changed to closed!!");
         closeTrades(trade);
+        return trade;
 
     }
 
