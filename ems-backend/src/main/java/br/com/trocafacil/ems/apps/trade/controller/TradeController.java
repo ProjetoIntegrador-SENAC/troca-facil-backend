@@ -65,5 +65,11 @@ public class TradeController {
         return ResponseEntity.ok().body(trade);
     }
 
+    @GetMapping("/cancelled/{id}")
+    public ResponseEntity<Trade> cancelledTrade(@PathVariable Long id){
+        Trade trade = tradeService.cancellTrade(id);
+        return ResponseEntity.ok().body(trade);
+    }
+
 
 }

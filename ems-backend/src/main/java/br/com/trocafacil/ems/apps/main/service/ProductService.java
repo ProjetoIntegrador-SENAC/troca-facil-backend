@@ -29,10 +29,18 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProductsToCancelled(List<Product> productsToUpdate){
+    public void updateProductsToAvaliable(List<Product> productsToUpdate){
         log.info("Updating products to avaliable!!");
         productsToUpdate.forEach(x -> x.setStatus(ProductStatus.DISPONIVEL));
         productRepository.saveAll(productsToUpdate);
+        log.info("Some products have been updated to avaliable");
+    }
+
+    @Transactional
+    public void updateProductToAvaliable(Product productToUpdate){
+        log.info("Updating product to avaliable!!");
+        productToUpdate.setStatus(ProductStatus.DISPONIVEL);
+        productRepository.save(productToUpdate);
         log.info("Some products have been updated to avaliable");
     }
 
@@ -74,4 +82,5 @@ public class ProductService {
     public void deleteById(long id) {
         productRepository.deleteById(id);
     }
+
 }

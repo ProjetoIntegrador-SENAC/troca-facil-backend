@@ -4,6 +4,7 @@ import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.apps.main.service.ProductService;
 import br.com.trocafacil.ems.apps.trade.repository.TradeRepository;
+import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
 import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
@@ -36,21 +37,23 @@ public class TradeService {
     private ProductService productService;
 
     @Transactional
-    public Trade acceptTrade(Long id){
-        Optional<Trade> tradeOptional = tradeRepository.findById(id);
-
-        if(tradeOptional.isEmpty()){
+    public Trade findById(Long id){
+        var optional = tradeRepository.findById(id);
+        if (optional.isEmpty()){
             throw new EntityNotFoundException();
         }
+        return optional.get();
+    }
 
-        Trade trade = tradeOptional.get();
+    @Transactional
+    public Trade acceptTrade(Long id){
+        Trade trade = findById(id);
         trade.setStatus(Status.FECHADO);
         tradeRepository.save(trade);
 
         log.info("Trade has been changed to closed!!");
         closeTrades(trade);
         return trade;
-
     }
 
     @Transactional
@@ -71,7 +74,7 @@ public class TradeService {
                 productsToUpdate.add(trade1.getProductPosted());
             }
         }
-        productService.updateProductsToCancelled(productsToUpdate);
+        productService.updateProductsToAvaliable(productsToUpdate);
     }
 
     @Transactional
@@ -107,6 +110,17 @@ public class TradeService {
 
         return null;
 
+    }
+
+    public Trade cancellTrade(Long id){
+        Trade trade = findById(id);
+        trade.setStatus(Status.CANCELADO);
+        tradeRepository.save(trade);
+
+        Product proprosal = trade.getProductProposal();
+        productService.updateProductToAvaliable(proprosal);
+
+        return trade;
     }
 
 }

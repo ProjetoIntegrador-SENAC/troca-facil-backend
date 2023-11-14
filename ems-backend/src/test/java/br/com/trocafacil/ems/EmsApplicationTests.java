@@ -32,7 +32,7 @@ class EmsApplicationTests {
 	private static TokenDto token;
 	private static HttpHeaders headers;
 	private static String baseUrl = "http://localhost:8050/";
-	private static final int TRADE_ID = 3;
+	private static final int TRADE_ID = 1;
 
 	@BeforeAll
 	public static void initialize(){
@@ -40,7 +40,7 @@ class EmsApplicationTests {
 		user = new User();
 		headers = new HttpHeaders();
 
-		user.setLogin("jhon");
+		user.setLogin("ronald");
 		user.setPassword("1234");
 		token = restTemplate.postForObject(baseUrl.concat("auth/login"), user, TokenDto.class);
 		headers.add("Authorization", "Bearer " + token.token());
@@ -49,10 +49,10 @@ class EmsApplicationTests {
 	@Test
 	public void shouldCreateALoginRF01() throws Exception{
 		User user1 = new User();
-		user.setLogin("jhon");
-		user.setPassword("1234");
-		User response = restTemplate.postForObject(baseUrl.concat("auth/register"), user, User.class);
-		assertThat(response.getLogin().equals("jhon"));
+		user1.setLogin("ronald");
+		user1.setPassword("1234");
+		User response = restTemplate.postForObject(baseUrl.concat("auth/register"), user1, User.class);
+		assertThat(response.getLogin().equals("ronald"));
 	}
 
 	@Test
@@ -69,48 +69,48 @@ class EmsApplicationTests {
 		address.setCep("2324423");
 		address.setNumero(70);
 
-		account.setName("jhon");
-		account.setSurname("ribeiro");
+		account.setName("ronald");
+		account.setSurname("garcia");
 		account.setAddress(address);
+		account.setDocument("55544433311");
 
 		HttpEntity<Account> httpEntity = new HttpEntity<>(account, headers);
 		Account response = restTemplate.postForObject("http://localhost:8050/account/create", httpEntity, Account.class);
-
-		assertThat(response.getName().equals("jhon"));
+		System.out.println(response);
+		assertThat(response.getName().equals("ronald"));
 	}
-
-	//TODO: FAZER OS TESTES UNITÁRIOS PARA CREATE CATEGORY E SUBCATEGORY
 
 	@Test
 	void shouldRegisterAProductRF04() throws Exception {
-		ProductCreateDto product = new ProductCreateDto(null, "Computador", 5000d, 1, ProductCondition.EXCELENTE, 1l);
+		ProductCreateDto product = new ProductCreateDto(null, "Tv", 3000d, 1, ProductCondition.BOM, 1l);
 		HttpEntity<ProductCreateDto> httpEntity = new HttpEntity<>(product, headers);
 
 		Product response = restTemplate.postForObject(baseUrl.concat("product/create"), httpEntity, Product.class);
-		assertThat(response.getName().equals("Computador"));
+		assertThat(response.getName().equals("Tv"));
 	}
 
 	@Test
-	void findAllProductsInYourAccountRF05() throws Exception {
+	void findAllProductsInYourAccountRF06() throws Exception {
 		HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
-		List<Product> products = restTemplate.exchange(baseUrl.concat("product/findall/personal"), HttpMethod.GET, entity, ArrayList.class).getBody();
-
+		ArrayList<Product> products = restTemplate.exchange(baseUrl.concat("product/findall/personal"), HttpMethod.GET, entity, ArrayList.class).getBody();
+		System.out.println(products);
 		assertThat(!products.isEmpty());
 	}
 
 	@Test
-	void createATradeShouldReturnTheIdTrade() throws Exception{
-		TradeCreateDto tradeCreateDto = new TradeCreateDto(6l, 7l);
+	void createATradeShouldReturnTheIdTradeRF07() throws Exception{
+		TradeCreateDto tradeCreateDto = new TradeCreateDto(1l, 2l);
 		HttpEntity<TradeCreateDto> httpEntity = new HttpEntity<>(tradeCreateDto, headers);
 		Trade response = restTemplate.postForObject(baseUrl.concat("trade/create"), httpEntity, Trade.class);
-		assertThat(response.getProductPosted().getId() == 6);
-		assertThat(response.getProductProposal().getId() == 7);
+		assertThat(response.getProductPosted().getId() == 1);
+		assertThat(response.getProductProposal().getId() == 2);
 	}
 
 	@Test
-	void acceptATradeShouldCloseIt() throws Exception {
+	void acceptATradeShouldCloseItRF08() throws Exception {
 		HttpEntity<HttpHeaders> httpEntity = new HttpEntity<>(headers);
 		Trade response = restTemplate.exchange(baseUrl.concat("trade/accept/" + TRADE_ID), HttpMethod.GET, httpEntity, Trade.class).getBody();
+		System.out.println(response);
 		assertThat(response.getStatus().equals("FECHADO"));
 	}
 
