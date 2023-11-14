@@ -4,6 +4,7 @@ import br.com.trocafacil.ems.domain.helpers.enums.ProductCondition;
 import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import br.com.trocafacil.ems.domain.model.account.Account;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -64,6 +65,7 @@ public class Product {
     private SubCategory subCategory;
 
     @OneToMany(mappedBy = "productPosted")
+    @JsonIgnore
     private List<Trade> tradesPosted;
 
 }

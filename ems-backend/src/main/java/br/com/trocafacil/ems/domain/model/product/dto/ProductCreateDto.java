@@ -39,7 +39,7 @@ public record ProductCreateDto (
         product.setDate(LocalDate.now());
         product.setCurCondition(this.curCondition);
         product.setPrice(BigDecimal.valueOf(this.price));
-        product.setStatus(ProductStatus.FECHADO);
+        product.setStatus(ProductStatus.DISPONIVEL);
         product.setAmount(this.amount);
         product.setSubCategory(subCategory);
         product.setCategory(subCategory.getCategory());

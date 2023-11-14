@@ -1,5 +1,6 @@
 package br.com.trocafacil.ems.domain.model.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,9 +27,11 @@ public class SubCategory {
     @ManyToOne
     @JoinColumn(name = "category_id")
     @Nonnull
+    @JsonIgnore
     private Category category;
 
     @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Product> products;
 
 }

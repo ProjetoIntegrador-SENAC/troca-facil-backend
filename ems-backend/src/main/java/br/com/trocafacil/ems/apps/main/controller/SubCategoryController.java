@@ -37,7 +37,6 @@ public class SubCategoryController {
         }
 
         SubCategory subCategory = subCategoryDto.createSubCategory(category.get());
-
         return ResponseEntity.ok(subCategoryRepository.save(subCategory));
     }
 
