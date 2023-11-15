@@ -4,6 +4,7 @@ import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.apps.main.repository.SubCategoryRepository;
 import br.com.trocafacil.ems.apps.main.service.AccountService;
+import br.com.trocafacil.ems.apps.main.service.MyBlobService;
 import br.com.trocafacil.ems.apps.main.service.ProductService;
 import br.com.trocafacil.ems.apps.main.service.SubCategoryService;
 import br.com.trocafacil.ems.domain.model.account.Account;
@@ -22,7 +23,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +42,10 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private MyBlobService myBlobService;
+
     @PostMapping("/create")
     public ResponseEntity<Product> create(@Validated @RequestBody ProductCreateDto productDto, @AuthenticationPrincipal User user){
         Account account = accountService.getAccountByUserId(user.getId());
@@ -73,6 +80,17 @@ public class ProductController {
     public ResponseEntity<Product> update(@RequestBody @Valid Product product){
         Product product1 = this.productService.save(product);
         return ResponseEntity.ok(product1);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("id") String id) throws IOException {
+        log.info("Filename: " + file.getOriginalFilename());
+        log.info("Size:" + file.getSize());
+        log.info("Content-type: " + file.getContentType());
+        var idLong = Long.parseLong(id);
+        myBlobService.storeFile(file.getOriginalFilename(),file.getInputStream(), file.getSize(), idLong);
+        var response =  file.getOriginalFilename() + " Has been saved as a blob-item!!!";
+        return ResponseEntity.ok().body(response);
     }
 
 }
