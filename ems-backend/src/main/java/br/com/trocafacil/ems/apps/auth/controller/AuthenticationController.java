@@ -1,6 +1,10 @@
 package br.com.trocafacil.ems.apps.auth.controller;
 
+import br.com.trocafacil.ems.apps.main.repository.RoleRepository;
+import br.com.trocafacil.ems.apps.main.service.UserService;
+import br.com.trocafacil.ems.domain.model.account.Role;
 import br.com.trocafacil.ems.domain.model.account.User;
+import br.com.trocafacil.ems.domain.model.account.dto.UserCreateDto;
 import br.com.trocafacil.ems.domain.model.token.TokenDto;
 import br.com.trocafacil.ems.apps.auth.repository.LoginRepository;
 import br.com.trocafacil.ems.apps.auth.service.JwtService;
@@ -12,6 +16,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/auth")
@@ -27,33 +33,61 @@ public class AuthenticationController {
     @Autowired
     private LoginRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody @Validated User login){
-        var token = new UsernamePasswordAuthenticationToken(login.getLogin(), login.getPassword());
+    public ResponseEntity<TokenDto> login(@RequestBody @Validated User user){
+        var token = new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword());
 
         // Por debaixo dos panos, esse objeto do spring chama o AuthenticationService
         var authentication = authenticationManager.authenticate(token);
-
         String tokenJwt = jwtService.generateToken((User) authentication.getPrincipal());
-
-        return ResponseEntity.ok(new TokenDto(tokenJwt));
-
+        return ResponseEntity.ok(new TokenDto(tokenJwt, (Set<Role>) user.getAuthorities()));
     }
 
     @PostMapping("/register")
     @Transactional
-    public ResponseEntity<User> register(@RequestBody @Validated User user){
+    public ResponseEntity<User> register(@RequestBody @Validated UserCreateDto userCreateDto){
 
-        if(userRepository.findByLogin(user.getLogin()) != null) return ResponseEntity.badRequest().build();
+        Role role = roleRepository.findByName("ROLE_USER");
+        if (role == null){
+            Role nRole = new Role();
+            nRole.setName("ROLE_USER");
+            role = roleRepository.save(nRole);
+        }
 
+        User user = userCreateDto.createUser(role);
         String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(encryptedPassword);
+        if(userRepository.findByLogin(user.getLogin()) != null) return ResponseEntity.badRequest().build();
+        this.userRepository.save(user);
+        return ResponseEntity.ok(user);
 
-        var login = new User(user.getLogin(), encryptedPassword);
+    }
 
-        this.userRepository.save(login);
-        
-        return ResponseEntity.ok(login);
+    @PostMapping("/create")
+    @Transactional
+    public ResponseEntity<User> create(@RequestBody User user){
+//        Role role = roleRepository.findByName("ROLE_USER");
+//        if (role == null){
+//            Role nRole = new Role();
+//            nRole.setName("ROLE_USER");
+//            role = roleRepository.save(nRole);
+//        }
+//        User user = userCreateDto.createUser(role);
+//        if(userRepository.findByLogin(user.getLogin()) != null) return ResponseEntity.badRequest().build();
+//        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+//        User login = new User(user.getLogin(), encryptedPassword);
+//        this.userRepository.save(login);
+//        return ResponseEntity.ok(login);
+
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/token")

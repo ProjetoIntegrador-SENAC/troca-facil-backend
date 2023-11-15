@@ -18,14 +18,19 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @NotNull
-//    @OneToOne
-//    private Account account;
+    @NotNull
+    private String zip;
 
     @NotNull
-    private String cep;
+    private int number;
 
-    @NotNull
-    private int numero;
+    private String district;
+
+    private String dsAddress;
+
+    private String complement;
+
+
+
 
 }

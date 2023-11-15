@@ -8,8 +8,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity(name = "User")
 @Table(name = "users")
@@ -32,6 +34,7 @@ public class User implements UserDetails {
     @Nonnull
     private String password;
 
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
@@ -39,6 +42,22 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> authorities;
+
+    @Override
+    public Set<? extends GrantedAuthority> getAuthorities() {
+
+        if (this.authorities == null){
+            Set<SimpleGrantedAuthority> sga = new HashSet<>();
+            sga.add(new SimpleGrantedAuthority("ROLE_USER"));
+            return sga;
+        }
+
+        Set<GrantedAuthority> grantedAuthorities = authorities.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toSet());
+
+        return grantedAuthorities;
+    }
 
     public User(String login, String password) {
         this.login = login;

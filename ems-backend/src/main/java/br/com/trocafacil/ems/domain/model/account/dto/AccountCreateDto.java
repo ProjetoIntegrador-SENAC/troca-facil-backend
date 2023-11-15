@@ -6,10 +6,14 @@ import br.com.trocafacil.ems.domain.model.account.User;
 import jakarta.validation.constraints.NotNull;
 
 public record AccountCreateDto (
-        @NotNull String name,
-        @NotNull String surname,
+        @NotNull String fullName,
+        @NotNull String username,
         @NotNull String document,
-        @NotNull Address address
+        @NotNull Address address,
+
+        String phoneNumber
+
+
 
         ){
     public Account createAccount(User user){
@@ -17,8 +21,9 @@ public record AccountCreateDto (
         account.setUser(user);
         account.setAddress(this.address);
         account.setDocument(this.document);
-        account.setName(this.name);
-        account.setSurname(this.surname);
+        account.setFullName(this.fullName);
+        account.setUsername(this.username);
+        account.setPhoneNumber(this.phoneNumber);
         return account;
     }
 }

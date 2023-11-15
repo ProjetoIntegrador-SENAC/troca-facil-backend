@@ -4,6 +4,8 @@ import br.com.trocafacil.ems.domain.model.product.Product;
 //import br.com.trocafacil.ems.domain.model.trade.Notification;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.*;
 
 @Entity(name = "Account")
@@ -22,11 +24,13 @@ public class Account {
 
     @Nonnull
     @Column(length = 100)
-    private String name;
+    private String fullName;
 
-    @Nonnull
     @Column(length = 100)
-    private String surname;
+    private String username;
+
+    @Column
+    private String phoneNumber;
 
     @Nonnull
     @OneToOne
