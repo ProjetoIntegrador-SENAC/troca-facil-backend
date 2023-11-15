@@ -112,6 +112,7 @@ public class TradeService {
 
     }
 
+    @Transactional
     public Trade cancellTrade(Long id){
         Trade trade = findById(id);
         trade.setStatus(Status.CANCELADO);
@@ -121,6 +122,14 @@ public class TradeService {
         productService.updateProductToAvaliable(proprosal);
 
         return trade;
+    }
+
+    @Transactional
+    public void conclude(Trade trade){
+        trade.getProductProposal().setStatus(ProductStatus.TROCADO);
+        trade.getProductPosted().setStatus(ProductStatus.TROCADO);
+        productRepository.save(trade.getProductProposal());
+        productRepository.save(trade.getProductPosted());
     }
 
 }

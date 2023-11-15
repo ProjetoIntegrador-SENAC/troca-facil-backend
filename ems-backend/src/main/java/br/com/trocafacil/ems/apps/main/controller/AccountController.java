@@ -57,7 +57,7 @@ public class AccountController {
         return ResponseEntity.ok(accCreated);
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         try {
             this.accountService.deleteById(id);

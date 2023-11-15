@@ -13,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class MeetingPoint {
+public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,6 +21,10 @@ public class MeetingPoint {
     @OneToOne
     @NotNull
     private Trade trade;
+
+    @NotNull
+    private String cep;
+    private Integer number;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;

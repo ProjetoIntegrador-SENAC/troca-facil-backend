@@ -48,7 +48,7 @@ public class TradeController {
         //TODO POST
     //TODO GET CANCELAR PROPOSTA {ID_TRADE}
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Trade> delete(@PathVariable Long id){
         try{
             tradeRepository.deleteById(id);

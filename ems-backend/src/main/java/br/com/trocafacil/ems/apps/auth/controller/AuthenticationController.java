@@ -71,25 +71,6 @@ public class AuthenticationController {
 
     }
 
-    @PostMapping("/create")
-    @Transactional
-    public ResponseEntity<User> create(@RequestBody User user){
-//        Role role = roleRepository.findByName("ROLE_USER");
-//        if (role == null){
-//            Role nRole = new Role();
-//            nRole.setName("ROLE_USER");
-//            role = roleRepository.save(nRole);
-//        }
-//        User user = userCreateDto.createUser(role);
-//        if(userRepository.findByLogin(user.getLogin()) != null) return ResponseEntity.badRequest().build();
-//        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-//        User login = new User(user.getLogin(), encryptedPassword);
-//        this.userRepository.save(login);
-//        return ResponseEntity.ok(login);
-
-        return ResponseEntity.notFound().build();
-    }
-
     @GetMapping("/token")
     public ResponseEntity validateToken(@RequestParam("token") String token){
         try{

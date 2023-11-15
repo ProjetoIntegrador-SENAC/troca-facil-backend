@@ -64,7 +64,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.findAllByUser(user));
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable long id){
         this.productService.deleteById(id);
     }
