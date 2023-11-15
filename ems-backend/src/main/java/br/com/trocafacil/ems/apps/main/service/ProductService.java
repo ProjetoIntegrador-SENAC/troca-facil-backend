@@ -8,6 +8,9 @@ import br.com.trocafacil.ems.domain.model.product.Product;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,6 +79,14 @@ public class ProductService {
     @Transactional
     public List<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    @Transactional
+    public List<Product> feed(User user, Integer pageNumber, Integer pageSize){
+        Account account = accountService.getAccountByUserId(user.getId());
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Product> products = productRepository.feed(account.getId(), ProductStatus.DISPONIVEL, pageable);
+        return products.stream().toList();
     }
 
     @Transactional

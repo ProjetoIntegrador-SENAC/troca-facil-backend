@@ -1,8 +1,5 @@
 package br.com.trocafacil.ems.apps.main.controller;
 
-import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
-import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
-import br.com.trocafacil.ems.apps.main.repository.SubCategoryRepository;
 import br.com.trocafacil.ems.apps.main.service.AccountService;
 import br.com.trocafacil.ems.apps.main.service.MyBlobService;
 import br.com.trocafacil.ems.apps.main.service.ProductService;
@@ -12,12 +9,9 @@ import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.product.SubCategory;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductCreateDto;
-import com.azure.core.annotation.Get;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("product")
@@ -91,6 +84,14 @@ public class ProductController {
         myBlobService.storeFile(file.getOriginalFilename(),file.getInputStream(), file.getSize(), idLong);
         var response =  file.getOriginalFilename() + " Has been saved as a blob-item!!!";
         return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/feed")
+    public ResponseEntity<List<Product>> feed(@AuthenticationPrincipal User user,
+                                              @RequestParam(required = false, name = "pageNumber", defaultValue = "0") Integer pageNumber,
+                                              @RequestParam(required = false,  name = "pageSize", defaultValue = "10") Integer pageSize){
+        List<Product> products = productService.feed(user, pageNumber, pageSize);
+        return ResponseEntity.ok(products);
     }
 
 }

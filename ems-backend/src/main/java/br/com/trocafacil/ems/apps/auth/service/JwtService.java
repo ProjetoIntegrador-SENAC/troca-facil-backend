@@ -58,7 +58,7 @@ public class JwtService {
                     .getSubject();
 
         } catch (JWTVerificationException exception){
-            throw new RuntimeException("Token JWT inválido");
+            throw new RuntimeException("Token JWT inválido: " + token);
         }
 
     }

@@ -1,7 +1,5 @@
 package br.com.trocafacil.ems.apps.main.controller;
 
-import br.com.trocafacil.ems.apps.main.repository.CategoryRepository;
-import br.com.trocafacil.ems.apps.main.repository.SubCategoryRepository;
 import br.com.trocafacil.ems.apps.main.service.CategoryService;
 import br.com.trocafacil.ems.apps.main.service.SubCategoryService;
 import br.com.trocafacil.ems.domain.model.product.Category;
