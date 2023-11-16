@@ -24,7 +24,7 @@ public class DeliveryController {
     }
 
     @PostMapping("/concluded/{id}")
-    public ResponseEntity<Delivery> update(@Valid @PathVariable(name = "id") Long id){
+    public ResponseEntity<Delivery> concluded(@Valid @PathVariable(name = "id") Long id){
         return ResponseEntity.ok(deliveryService.concluded(id));
     }
 

@@ -2,6 +2,7 @@ package br.com.trocafacil.ems.apps.trade.service;
 
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
+import br.com.trocafacil.ems.apps.main.service.AccountService;
 import br.com.trocafacil.ems.apps.main.service.ProductService;
 import br.com.trocafacil.ems.apps.trade.repository.TradeRepository;
 import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
@@ -12,6 +13,7 @@ import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import br.com.trocafacil.ems.domain.model.trade.dto.TradeCreateDto;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,9 @@ public class TradeService {
     private ProductRepository productRepository;
     @Autowired
     private TradeRepository tradeRepository;
+
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     private ProductService productService;
@@ -90,7 +95,7 @@ public class TradeService {
         Product productPosted = productRepository.findById(tradeDto.productPostedId()).orElseThrow();
 
         if (!(productProposal.getAccount().getId() == account.getId())){
-            throw new EntityNotFoundException("");
+            throw new EntityNotFoundException();
         }
 
         Trade trade = tradeDto.createTrade(productProposal, productPosted);
@@ -132,4 +137,8 @@ public class TradeService {
         productRepository.save(trade.getProductPosted());
     }
 
+    public List<Trade> findProposals(User user) {
+        Account account = accountService.getAccountByUserId(user.getId());
+        return tradeRepository.findByProduct_Account_IdAndStatus(account.getId(), Status.EM_NEGOCIACAO);
+    }
 }

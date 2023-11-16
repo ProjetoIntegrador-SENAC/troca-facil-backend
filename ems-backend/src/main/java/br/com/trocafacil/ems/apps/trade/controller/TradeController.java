@@ -17,6 +17,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("trade")
 public class TradeController {
@@ -36,12 +38,15 @@ public class TradeController {
     //TODO POST ABRIR NEGOCIACAO {DATA_ABERTURA(DT_REQUISICAO), PRODUTO_ALVO, PRODUTO_TROCA, STATUS_INICIAL}
 
     @PostMapping("/create")
-    @Transactional
     public ResponseEntity<Trade> open(@RequestBody @Valid TradeCreateDto tradeDto, @AuthenticationPrincipal User user){
         Trade trade = tradeService.create(tradeDto, user);
         return ResponseEntity.ok(trade);
     }
 
+    @GetMapping("/findProposals")
+    public ResponseEntity<List<Trade>> findProposals(@AuthenticationPrincipal User user){
+        return ResponseEntity.ok(tradeService.findProposals(user));
+    }
 
 
     //TODO GET FAZER OFERTA POR PRODUTO

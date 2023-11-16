@@ -1,5 +1,6 @@
 package br.com.trocafacil.ems.apps.trade.repository;
 
+import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,7 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
             Long productPostedId, Long productProposalId,
             Long productPostedId2, Long productProposalId2
             );
+
+    List<Trade> findByProduct_Account_IdAndStatus(Long accountId, Status status);
 
 }
