@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class SubCategoryService {
 
@@ -26,4 +28,15 @@ public class SubCategoryService {
     public SubCategory save(SubCategory subCategory) {
         return subCategoryRepository.save(subCategory);
     }
+
+    @Transactional
+    public List<SubCategory> findAll(Long categoryId){
+        return subCategoryRepository.findAllByCategoryId(categoryId);
+    }
+
+    @Transactional
+    public void delete(Long id){
+        subCategoryRepository.deleteById(id);
+    }
+
 }

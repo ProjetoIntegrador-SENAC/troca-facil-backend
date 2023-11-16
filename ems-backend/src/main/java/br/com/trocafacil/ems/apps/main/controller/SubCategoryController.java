@@ -9,11 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -35,5 +33,17 @@ public class SubCategoryController {
         SubCategory subCategory = subCategoryDto.createSubCategory(category);
         return ResponseEntity.ok(subCategoryService.save(subCategory));
     }
+
+    @GetMapping("/findAll/{id}")
+    public ResponseEntity<List<SubCategory>> findall(@PathVariable(name = "id") Long id){
+        return ResponseEntity.ok(subCategoryService.findAll(id));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete (@PathVariable(name = "id") Long id){
+        subCategoryService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
