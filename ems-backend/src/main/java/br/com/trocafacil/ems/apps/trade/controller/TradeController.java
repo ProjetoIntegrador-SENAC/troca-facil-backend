@@ -45,9 +45,9 @@ public class TradeController {
 
     @GetMapping("/findProposals")
     public ResponseEntity<List<Trade>> findProposals(@AuthenticationPrincipal User user){
-        return ResponseEntity.ok(tradeService.findProposals(user));
+        return (ResponseEntity<List<Trade>>) ResponseEntity.noContent();
+        //return ResponseEntity.ok(tradeService.findProposals(user));
     }
-
 
     //TODO GET FAZER OFERTA POR PRODUTO
         //TODO POST
@@ -75,6 +75,4 @@ public class TradeController {
         Trade trade = tradeService.cancellTrade(id);
         return ResponseEntity.ok().body(trade);
     }
-
-
 }
