@@ -67,44 +67,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    @Transactional
     public ResponseEntity<CustomResponseDto<User>> register(@RequestBody @Validated UserCreateDto userCreateDto){
-
-        try{
-            Role role = roleRepository.findByName("ROLE_USER");
-            if (role == null){
-                Role nRole = new Role();
-                nRole.setName("ROLE_USER");
-                role = roleRepository.save(nRole);
-            }
-
-            User user = userCreateDto.createUser(role);
-            String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-            user.setPassword(encryptedPassword);
-
-            if(userRepository.findByLogin(user.getLogin()) != null) {
-                throw new CustomResponseException(HttpStatusCode.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), "O Usuário já existe!");
-            }
-
-            User userCreated = userRepository.save(user);
-
-            Address address = addressService.save(userCreateDto.createAddress());
-
-            Account account = userCreateDto.createAccount(userCreated, address);
-
-            if (accountService.getAccountByDocumentOrUsername(account.getUsername(), account.getDocument()) != null){
-                throw new CustomResponseException(HttpStatusCode.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), "A Conta já existe!");
-            }
-            CustomResponseDto<User> response = new CustomResponseDto<User>(accountService.save(userCreateDto.createAccount(userCreated, address)).getUser(), "");
-            return ResponseEntity.ok(response);
-
-        }catch (CustomResponseException ex){
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomResponseDto<User>(null, ex.getMessage()));
-        }catch (RuntimeException ex){
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomResponseDto<User>(null, "Erro interno no servidor"));
-        }
+        return userService.create(userCreateDto);
     }
 
     @GetMapping("/token")
