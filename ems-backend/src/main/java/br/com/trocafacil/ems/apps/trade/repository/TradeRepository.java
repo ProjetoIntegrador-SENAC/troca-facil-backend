@@ -18,6 +18,6 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
             Long productPostedId2, Long productProposalId2
             );
 
-    List<Trade> findByProductProposalIdAndStatus(Long accountId, Status status);
+//    List<Trade> findByProduct_Account_IdAndStatus(Long accountId, Status status);
 
 }
