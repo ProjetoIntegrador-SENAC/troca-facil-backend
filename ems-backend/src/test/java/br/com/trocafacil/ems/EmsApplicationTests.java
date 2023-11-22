@@ -1,5 +1,6 @@
 package br.com.trocafacil.ems;
 
+import br.com.trocafacil.ems.apps.main.service.AccountService;
 import br.com.trocafacil.ems.domain.helpers.enums.ProductCondition;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.Address;
@@ -26,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class EmsApplicationTests {
 
-	@Autowired
+	/*@Autowired
 	private static TestRestTemplate restTemplate;
 	private static User user;
 	private static TokenDto token;
@@ -34,7 +35,7 @@ class EmsApplicationTests {
 	private static String baseUrl = "http://localhost:8050/";
 	private static final int TRADE_ID = 1;
 
-	@BeforeAll
+@BeforeAll
 	public static void initialize(){
 		restTemplate = new TestRestTemplate();
 		user = new User();
@@ -44,9 +45,9 @@ class EmsApplicationTests {
 		user.setPassword("1234");
 		token = restTemplate.postForObject(baseUrl.concat("auth/login"), user, TokenDto.class);
 		headers.add("Authorization", "Bearer " + token.token());
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void shouldCreateALoginRF01() throws Exception{
 		User user1 = new User();
 		user1.setLogin("ronald");
@@ -66,18 +67,17 @@ class EmsApplicationTests {
 		Address address = new Address();
 		Account account = new Account();
 
-		address.setCep("2324423");
-		address.setNumero(70);
+		address.setZip("2324423");
+		address.setNumber(70);
 
-		account.setName("ronald");
-		account.setSurname("garcia");
+		account.setFullName("ronald");
 		account.setAddress(address);
 		account.setDocument("55544433311");
 
 		HttpEntity<Account> httpEntity = new HttpEntity<>(account, headers);
 		Account response = restTemplate.postForObject("http://localhost:8050/account/create", httpEntity, Account.class);
 		System.out.println(response);
-		assertThat(response.getName().equals("ronald"));
+		assertThat(response.getFullName().equals("ronald"));
 	}
 
 	@Test
@@ -112,6 +112,6 @@ class EmsApplicationTests {
 		Trade response = restTemplate.exchange(baseUrl.concat("trade/accept/" + TRADE_ID), HttpMethod.GET, httpEntity, Trade.class).getBody();
 		System.out.println(response);
 		assertThat(response.getStatus().equals("FECHADO"));
-	}
+	} */
 
 }

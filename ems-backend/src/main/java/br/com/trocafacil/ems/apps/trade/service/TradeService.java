@@ -139,6 +139,6 @@ public class TradeService {
 
     public List<Trade> findProposals(User user) {
         Account account = accountService.getAccountByUserId(user.getId());
-        return tradeRepository.findByProduct_Account_IdAndStatus(account.getId(), Status.EM_NEGOCIACAO);
+        return tradeRepository.findByProductProposalIdAndStatus(account.getId(), Status.EM_NEGOCIACAO);
     }
 }
