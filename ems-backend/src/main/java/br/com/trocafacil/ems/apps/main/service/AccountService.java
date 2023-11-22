@@ -1,5 +1,6 @@
 package br.com.trocafacil.ems.apps.main.service;
 
+import br.com.caelum.stella.validation.CPFValidator;
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import jakarta.persistence.EntityNotFoundException;
@@ -32,7 +33,25 @@ public class AccountService {
 
     @Transactional
     public Account save(Account account){
+        verifyDocument(account);
         return accountRepository.save(account);
+    }
+
+
+    public boolean saveEntity(Account account){
+        return verifyDocument(account);
+    }
+    private boolean verifyDocument(Account account){
+        CPFValidator validator = new CPFValidator();
+
+        try{
+            validator.assertValid(account.getDocument());
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     @Transactional
