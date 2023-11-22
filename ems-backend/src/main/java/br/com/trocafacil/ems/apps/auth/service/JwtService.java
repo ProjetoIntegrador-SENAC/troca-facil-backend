@@ -1,6 +1,7 @@
 package br.com.trocafacil.ems.apps.auth.service;
 
 import br.com.trocafacil.ems.apps.main.repository.UserRepository;
+import br.com.trocafacil.ems.domain.model.account.Role;
 import br.com.trocafacil.ems.domain.model.account.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -10,10 +11,15 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
@@ -33,6 +39,11 @@ public class JwtService {
     }
 
     public String generateToken(User user){
+
+        List<String> roles = user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
@@ -40,6 +51,8 @@ public class JwtService {
                     .withIssuer("senac-pi")
                     .withSubject(user.getLogin())
                     .withExpiresAt(LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00")))
+                    .withClaim("roles", roles)
+                    .withClaim("username", user.getUsername())
                     .sign(algorithm);
 
             return token;

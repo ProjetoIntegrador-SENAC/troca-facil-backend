@@ -4,6 +4,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,7 +36,7 @@ public class User implements UserDetails {
     private String password;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -45,7 +46,6 @@ public class User implements UserDetails {
 
     @Override
     public Set<? extends GrantedAuthority> getAuthorities() {
-
         if (this.authorities == null){
             Set<SimpleGrantedAuthority> sga = new HashSet<>();
             sga.add(new SimpleGrantedAuthority("ROLE_USER"));

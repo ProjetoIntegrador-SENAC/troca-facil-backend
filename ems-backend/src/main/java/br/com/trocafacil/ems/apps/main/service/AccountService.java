@@ -60,4 +60,10 @@ public class AccountService {
     public Account getAccountByUserId(Long id){
         return accountRepository.findByUserId(id);
     }
+
+    @Transactional
+    public Account getAccountByDocumentOrUsername(String username, String document){
+        return accountRepository.findByUsernameOrDocument(username, document);
+    }
+
 }
