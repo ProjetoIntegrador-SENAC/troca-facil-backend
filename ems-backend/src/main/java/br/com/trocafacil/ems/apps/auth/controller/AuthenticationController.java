@@ -55,7 +55,6 @@ public class AuthenticationController {
     private AddressService addressService;
 
 
-
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody @Validated User user){
         var token = new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword());
@@ -63,7 +62,7 @@ public class AuthenticationController {
         // Por debaixo dos panos, esse objeto do spring chama o AuthenticationService
         var authentication = authenticationManager.authenticate(token);
         String tokenJwt = jwtService.generateToken((User) authentication.getPrincipal());
-        return ResponseEntity.ok(new TokenDto(tokenJwt, (Set<Role>) user.getAuthorities()));
+            return ResponseEntity.ok(new TokenDto(tokenJwt, (Set<Role>) user.getAuthorities()));
     }
 
     @PostMapping("/register")

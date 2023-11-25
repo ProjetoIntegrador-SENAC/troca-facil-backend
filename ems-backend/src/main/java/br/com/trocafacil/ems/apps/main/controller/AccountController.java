@@ -4,6 +4,8 @@ import br.com.trocafacil.ems.apps.auth.service.JwtService;
 import br.com.trocafacil.ems.apps.main.service.AccountService;
 import br.com.trocafacil.ems.apps.main.service.AddressService;
 import br.com.trocafacil.ems.apps.main.service.MyBlobService;
+import br.com.trocafacil.ems.domain.model.CustomResponseDto;
+import br.com.trocafacil.ems.domain.model.CustomResponseListDto;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.account.dto.AccountCreateDto;
@@ -38,9 +40,8 @@ public class AccountController {
     private MyBlobService myBlobService;
 
     @GetMapping("/findall")
-    public ResponseEntity<ArrayList<Account>> findAll(){
-        ArrayList<Account> accounts = accountService.findAll();
-        return ResponseEntity.ok(accounts);
+    public ResponseEntity<CustomResponseListDto<Account>> findAll(){
+        return ResponseEntity.ok(accountService.findAll());
     }
 
     @GetMapping("/find/{id}")

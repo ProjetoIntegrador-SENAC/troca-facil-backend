@@ -44,6 +44,7 @@ public class ProductController {
         Account account = accountService.getAccountByUserId(user.getId());
         SubCategory subCategory = subCategoryService.findById(productDto.subCategoryId());
         Product product = productDto.createProduct(account, subCategory);
+
         return ResponseEntity.ok(productService.save(product));
     }
 

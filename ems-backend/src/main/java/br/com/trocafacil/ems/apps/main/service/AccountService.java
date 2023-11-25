@@ -2,13 +2,19 @@ package br.com.trocafacil.ems.apps.main.service;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
+import br.com.trocafacil.ems.config.exception.CustomResponseException;
+import br.com.trocafacil.ems.domain.model.CustomResponseDto;
+import br.com.trocafacil.ems.domain.model.CustomResponseListDto;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,8 +24,10 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     @Transactional
-    public ArrayList<Account> findAll(){
-        return (ArrayList<Account>) accountRepository.findAll();
+    public CustomResponseListDto<Account> findAll(){
+        List<Account> accounts = this.accountRepository.findAll();
+        var response = new CustomResponseListDto<Account>(accounts, "");
+        return response;
     }
 
     @Transactional
