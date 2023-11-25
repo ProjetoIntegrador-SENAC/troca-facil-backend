@@ -2,7 +2,6 @@ package br.com.trocafacil.ems.apps.main.controller;
 
 import br.com.trocafacil.ems.apps.main.service.CategoryService;
 import br.com.trocafacil.ems.domain.model.product.Category;
-import com.azure.core.annotation.Get;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable(name = "id") Long id){
+    public ResponseEntity<Void> delete(@PathVariable(name = "id") Long id){
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }

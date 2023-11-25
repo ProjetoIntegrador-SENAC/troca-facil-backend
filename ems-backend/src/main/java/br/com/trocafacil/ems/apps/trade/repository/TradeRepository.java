@@ -1,10 +1,7 @@
 package br.com.trocafacil.ems.apps.trade.repository;
 
-import br.com.trocafacil.ems.domain.helpers.enums.Status;
-import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;

@@ -81,7 +81,7 @@ public class ProductController {
         log.info("Size:" + file.getSize());
         log.info("Content-type: " + file.getContentType());
         var idLong = Long.parseLong(id);
-        myBlobService.storeFile(file.getOriginalFilename(),file.getInputStream(), file.getSize(), idLong);
+        myBlobService.storeProductFile(file.getOriginalFilename(),file.getInputStream(), file.getSize(), idLong);
         var response =  file.getOriginalFilename() + " Has been saved as a blob-item!!!";
         return ResponseEntity.ok().body(response);
     }

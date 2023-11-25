@@ -25,6 +25,9 @@ public class MyBlobService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private ProductService productService;
+
     private BlobContainerClient containerClient() {
 
         BlobServiceClient serviceClient = new BlobServiceClientBuilder()
@@ -36,7 +39,7 @@ public class MyBlobService {
         return container;
     }
 
-    public String storeFile(String filename, InputStream content, long length, Long id) {
+    public String storeAccountFile(String filename, InputStream content, long length, Long id) {
         log.info("Azure store file BEGIN {}", filename);
         BlobClient client = containerClient().getBlobClient(filename);
         if (client.exists()) {
@@ -48,6 +51,24 @@ public class MyBlobService {
         log.info("Saving image path in database");
 
         log.info(accountService.saveImage(id, basePath.concat(filename)));
+        
+
+        return "File uploaded with success!";
+    }
+
+
+    public String storeProductFile(String filename, InputStream content, long length, Long id) {
+        log.info("Azure store file BEGIN {}", filename);
+        BlobClient client = containerClient().getBlobClient(filename);
+        if (client.exists()) {
+            log.warn("The file was already located on azure");
+        } else {
+            client.upload(content, length);
+        }
+        log.info("Azure store file END");
+        log.info("Saving image path in database");
+        log.info(productService.saveImage(id, basePath.concat(filename)));
+        
 
         return "File uploaded with success!";
     }
