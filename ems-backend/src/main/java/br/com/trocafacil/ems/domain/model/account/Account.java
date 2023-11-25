@@ -1,11 +1,8 @@
 package br.com.trocafacil.ems.domain.model.account;
 
-import br.com.trocafacil.ems.domain.model.product.Product;
 //import br.com.trocafacil.ems.domain.model.trade.Notification;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.*;
 
 @Entity(name = "Account")
@@ -43,8 +40,6 @@ public class Account {
     @Nonnull
     @Column(length = 16, unique = true)
     private String document;
-
-    private String photoPath;
 
 //    @OneToMany(mappedBy = "account")
 //    private ArrayList<Product> products;

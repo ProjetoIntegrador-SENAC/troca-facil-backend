@@ -26,6 +26,9 @@ public class ProductService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private PhotoService photoService;
+
     @Transactional
     public Product save(Product product){
         return productRepository.save(product);
@@ -92,6 +95,12 @@ public class ProductService {
     @Transactional
     public void deleteById(long id) {
         productRepository.deleteById(id);
+    }
+
+    @Transactional
+    public String saveImage(Long id, String imagePath){
+        photoService.saveImage(id, imagePath, "PRODUCT");
+        return "Profile image saved with success!";
     }
 
 }

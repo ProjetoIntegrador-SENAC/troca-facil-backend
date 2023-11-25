@@ -1,6 +1,5 @@
 package br.com.trocafacil.ems.apps.main.controller;
 
-import br.com.trocafacil.ems.apps.auth.service.JwtService;
 import br.com.trocafacil.ems.apps.main.service.AccountService;
 import br.com.trocafacil.ems.apps.main.service.AddressService;
 import br.com.trocafacil.ems.apps.main.service.MyBlobService;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,8 +32,6 @@ public class AccountController {
 
     @Autowired
     private AddressService addressService;
-    @Autowired
-    private JwtService jwtService;
     @Autowired
     private MyBlobService myBlobService;
 
@@ -81,7 +77,7 @@ public class AccountController {
         log.info("Size:" + file.getSize());
         log.info("Content-type: " + file.getContentType());
         var idLong = Long.parseLong(id);
-        myBlobService.storeFile(file.getOriginalFilename(),file.getInputStream(), file.getSize(), idLong);
+        myBlobService.storeAccountFile(file.getOriginalFilename(),file.getInputStream(), file.getSize(), idLong);
         var response =  file.getOriginalFilename() + " Has been saved as a blob-item!!!";
         return ResponseEntity.ok().body(response);
     }

@@ -5,8 +5,6 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "SubCategory")

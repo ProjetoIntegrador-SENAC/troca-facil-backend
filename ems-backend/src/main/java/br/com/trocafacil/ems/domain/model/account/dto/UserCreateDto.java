@@ -5,7 +5,6 @@ import br.com.trocafacil.ems.domain.model.account.Address;
 import br.com.trocafacil.ems.domain.model.account.Role;
 import br.com.trocafacil.ems.domain.model.account.User;
 import jakarta.validation.constraints.NotNull;
-import org.aspectj.weaver.ast.Not;
 
 import java.time.LocalDate;
 import java.util.Set;

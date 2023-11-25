@@ -23,6 +23,9 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private PhotoService photoService;
+
     @Transactional
     public CustomResponseListDto<Account> findAll(){
         List<Account> accounts = this.accountRepository.findAll();
@@ -69,17 +72,7 @@ public class AccountService {
 
     @Transactional
     public String saveImage(Long id, String imagePath){
-        Optional<Account> accountOptional = accountRepository.findById(id);
-
-        if (accountOptional.isPresent()){
-            Account account = accountOptional.get();
-            account.setPhotoPath(imagePath);
-
-            accountRepository.save(account);
-        } else {
-            return "Account with id: " + id + " doesn't match with anyone in database";
-        }
-
+        photoService.saveImage(id, imagePath, "ACCOUNT");
         return "Profile image saved with success!";
     }
 

@@ -6,7 +6,6 @@ import br.com.trocafacil.ems.domain.helpers.enums.DeliveryStatus;
 import br.com.trocafacil.ems.domain.model.trade.Delivery;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import br.com.trocafacil.ems.domain.model.trade.dto.DeliveryDto;
-import br.com.trocafacil.ems.domain.model.trade.dto.TradeCreateDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

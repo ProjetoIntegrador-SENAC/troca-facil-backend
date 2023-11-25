@@ -1,6 +1,5 @@
 package br.com.trocafacil.ems.apps.main.service;
 
-import br.com.trocafacil.ems.apps.main.repository.RoleRepository;
 import br.com.trocafacil.ems.apps.main.repository.UserRepository;
 import br.com.trocafacil.ems.config.exception.CustomResponseException;
 import br.com.trocafacil.ems.domain.model.CustomResponseDto;
@@ -13,21 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.Collection;
-import java.util.Set;
 
 @Service
 public class UserService {
     @Autowired private UserRepository userRepository;
     @Autowired private AccountService accountService;
-    @Autowired private RoleRepository authorityRepository;
     @Autowired private AddressService addressService;
     @Autowired private RoleService roleService;
 

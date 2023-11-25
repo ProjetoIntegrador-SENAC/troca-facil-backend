@@ -3,8 +3,6 @@ package br.com.trocafacil.ems.domain.model.trade.dto;
 import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
