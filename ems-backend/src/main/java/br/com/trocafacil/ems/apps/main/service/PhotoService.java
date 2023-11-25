@@ -19,7 +19,7 @@ public class PhotoService {
     @Transactional
     public void saveImage(Long id, String path, String group){
 
-        Optional<Photo> photo = photoRepository.findByExternalIdAndGroup(id, group);
+        Optional<Photo> photo = photoRepository.findByExternalIdAndAccountProduct(id, group);
         if (!photo.isEmpty()) return;
 
         var photoToSave = new Photo(null, path, group, id);

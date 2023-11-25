@@ -1,8 +1,6 @@
 package br.com.trocafacil.ems.domain.model.photo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,9 +19,10 @@ import lombok.ToString;
 public class Photo {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String photoPath;
-    private String group;
+    private String accountProduct;
     private Long externalId;
     
 }

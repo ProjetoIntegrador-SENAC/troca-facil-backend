@@ -44,7 +44,7 @@ public class AccountService {
 
     @Transactional
     public Account save(Account account){
-        verifyDocument(account);
+        //verifyDocument(account);
         return accountRepository.save(account);
     }
 
