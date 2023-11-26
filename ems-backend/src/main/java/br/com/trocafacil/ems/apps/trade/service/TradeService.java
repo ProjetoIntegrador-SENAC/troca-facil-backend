@@ -69,16 +69,16 @@ public class TradeService {
         productService.updateProductToExchanged(productProprosal);
 
         var trades = tradeRepository.findByProductPostedId(productPosted.getId());
-        List<Product> productsToUpdate = new ArrayList<>();
+        // List<Product> productsToUpdate = new ArrayList<>();
         log.info("Updating other trades with the same product target");
         for (Trade trade1 : trades) {
             if (trade1.getId() != trade.getId()){
                 trade1.setStatus(Status.CANCELADO);
                 tradeRepository.save(trade1);
-                productsToUpdate.add(trade1.getProductPosted());
+               // productsToUpdate.add(trade1.getProductPosted());
             }
         }
-        productService.updateProductsToAvaliable(productsToUpdate);
+        // productService.updateProductsToAvaliable(productsToUpdate);
     }
 
     @Transactional
@@ -138,7 +138,18 @@ public class TradeService {
 
     public List<Trade> findProposals(User user) {
         Account account = accountService.getAccountByUserId(user.getId());
-//        return tradeRepository.findByProduct_Account_IdAndStatus(account.getId(), Status.EM_NEGOCIACAO);
-        return new ArrayList<>();
+        List<Product> products = new ArrayList<>();
+        List<Trade> totalTrades = new ArrayList<>();
+
+        for (Product p : account.getProducts()){
+            if (p.getTradesPosted().isEmpty()) continue;
+
+            for (Trade trade : p.getTradesPosted()){
+                if (trade.getStatus().equals(Status.EM_NEGOCIACAO)){
+                    totalTrades.add(trade);
+                }
+            }
+        }
+        return totalTrades;
     }
 }

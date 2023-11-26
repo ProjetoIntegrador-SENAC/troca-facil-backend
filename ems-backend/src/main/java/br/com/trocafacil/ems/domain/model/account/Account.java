@@ -1,9 +1,14 @@
 package br.com.trocafacil.ems.domain.model.account;
 
 //import br.com.trocafacil.ems.domain.model.trade.Notification;
+import br.com.trocafacil.ems.domain.model.product.Product;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "Account")
 @Table(name = "account")
@@ -41,7 +46,8 @@ public class Account {
     @Column(length = 16, unique = true)
     private String document;
 
-//    @OneToMany(mappedBy = "account")
-//    private ArrayList<Product> products;
+    @JsonIgnore
+    @OneToMany(mappedBy = "account")
+    private List<Product> products = new ArrayList<>();
 
 }

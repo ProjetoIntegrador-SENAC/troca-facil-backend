@@ -25,7 +25,6 @@ public class Delivery {
     @NotNull
     private String cep;
     private Integer number;
-
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 }
