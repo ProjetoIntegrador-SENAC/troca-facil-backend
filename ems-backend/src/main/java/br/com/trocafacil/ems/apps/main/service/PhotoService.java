@@ -34,7 +34,7 @@ public class PhotoService {
     }
 
     @Transactional
-    public Photo findByIdAndAccountProduct(Long id, String group){
+    public Photo findByExternalIdAndAccountProduct(Long id, String group){
         return photoRepository.findByIdAndAccountProduct(id, group);
     }
 

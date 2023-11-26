@@ -102,7 +102,7 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductPhotoDto>    feed(User user, Integer pageNumber, Integer pageSize){
+    public List<ProductPhotoDto> feed(User user, Integer pageNumber, Integer pageSize){
         Account account = accountService.getAccountByUserId(user.getId());
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Product> productsPage = productRepository.findByAccountIdNotAndStatus(account.getId(), ProductStatus.DISPONIVEL, pageable);
@@ -116,8 +116,8 @@ public class ProductService {
             String pathphotoAccount = "";
             String pathphotoProduct = "";
 
-            Photo photoAccount = photoService.findByIdAndAccountProduct(account1.getId(), "ACCOUNT");
-            Photo photoProduct = photoService.findByIdAndAccountProduct(product.getId(), "PRODUCT");
+            Photo photoAccount = photoService.findByExternalIdAndAccountProduct(account1.getId(), "ACCOUNT");
+            Photo photoProduct = photoService.findByExternalIdAndAccountProduct(product.getId(), "PRODUCT");
 
             if (!(photoAccount == null)){
                 pathphotoAccount = photoAccount.getPhotoPath();
