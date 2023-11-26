@@ -5,6 +5,7 @@ import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.photo.Photo;
+import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductPersonalDto;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductPhotoDto;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -69,7 +69,7 @@ public class ProductService {
         List<ProductPersonalDto> productPersonalDtos = new ArrayList<>();
 
         for (Product product : products) {
-            String photopath = photoService.getPhotoPath(product.getId(), "PRODUCT");
+            String photopath = photoService.getPhotoPath(product.getId(), PhotoEnum.PRODUCT.name());
             ProductPersonalDto obj = new ProductPersonalDto(
                     product.getId(),
                     product.getName(),

@@ -2,18 +2,14 @@ package br.com.trocafacil.ems.apps.main.service;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
-import br.com.trocafacil.ems.config.exception.CustomResponseException;
-import br.com.trocafacil.ems.domain.model.CustomResponseDto;
 import br.com.trocafacil.ems.domain.model.CustomResponseListDto;
 import br.com.trocafacil.ems.domain.model.account.Account;
+import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,7 +68,7 @@ public class AccountService {
 
     @Transactional
     public String saveImage(Long id, String imagePath){
-        photoService.saveImage(id, imagePath, "ACCOUNT");
+        photoService.saveImage(id, imagePath, PhotoEnum.ACCOUNT.name());
         return "Profile image saved with success!";
     }
 
