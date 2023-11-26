@@ -96,5 +96,4 @@ public class ProductController {
         List<ProductPhotoDto> products = productService.feed(user, pageNumber, pageSize);
         return ResponseEntity.ok(products);
     }
-
 }

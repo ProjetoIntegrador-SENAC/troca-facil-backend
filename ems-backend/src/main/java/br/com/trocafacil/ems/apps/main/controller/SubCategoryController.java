@@ -33,7 +33,7 @@ public class SubCategoryController {
         return ResponseEntity.ok(subCategoryService.save(subCategory));
     }
 
-    @GetMapping("/findAll/{id}")
+    @GetMapping("/findall/{id}")
     public ResponseEntity<List<SubCategory>> findall(@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(subCategoryService.findAll(id));
     }
@@ -43,6 +43,4 @@ public class SubCategoryController {
         subCategoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }
