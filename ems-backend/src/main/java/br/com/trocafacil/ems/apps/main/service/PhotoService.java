@@ -26,4 +26,10 @@ public class PhotoService {
         photoRepository.save(photoToSave);
 
     }
+
+    public String getPhotoPath (Long external_id, String group){
+        Optional<Photo> photo = photoRepository.findByExternalIdAndAccountProduct(external_id, group);
+        if (photo.isPresent()) return photo.get().getPhotoPath();
+        return "no image";
+    }
 }
