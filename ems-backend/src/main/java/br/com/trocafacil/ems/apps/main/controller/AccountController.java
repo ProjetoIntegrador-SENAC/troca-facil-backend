@@ -3,11 +3,13 @@ package br.com.trocafacil.ems.apps.main.controller;
 import br.com.trocafacil.ems.apps.main.service.AccountService;
 import br.com.trocafacil.ems.apps.main.service.AddressService;
 import br.com.trocafacil.ems.apps.main.service.MyBlobService;
-import br.com.trocafacil.ems.domain.model.CustomResponseDto;
+import br.com.trocafacil.ems.apps.main.service.PhotoService;
 import br.com.trocafacil.ems.domain.model.CustomResponseListDto;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.account.dto.AccountCreateDto;
+import br.com.trocafacil.ems.domain.model.photo.Photo;
+import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("account")
@@ -32,8 +33,12 @@ public class AccountController {
 
     @Autowired
     private AddressService addressService;
+
     @Autowired
     private MyBlobService myBlobService;
+
+    @Autowired
+    private PhotoService photoService;
 
     @GetMapping("/findall")
     public ResponseEntity<CustomResponseListDto<Account>> findAll(){
@@ -52,6 +57,12 @@ public class AccountController {
         addressService.save(accountDto.address());
         Account accCreated = accountService.save(account);
         return ResponseEntity.ok(accCreated);
+    }
+
+    @PostMapping("/find/photo/{id}")
+    public ResponseEntity<String> getPhotoPath(@PathVariable Long id){
+        Photo photo = photoService.findByIdAndAccountProduct(id, PhotoEnum.ACCOUNT.name());
+        return ResponseEntity.ok().body(photo.getPhotoPath());
     }
 
     @DeleteMapping("/delete/{id}")
