@@ -9,6 +9,7 @@ import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.product.SubCategory;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductCreateDto;
+import br.com.trocafacil.ems.domain.model.product.dto.ProductPhotoDto;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,10 +89,10 @@ public class ProductController {
     }
 
     @GetMapping("/feed")
-    public ResponseEntity<List<Product>> feed(@AuthenticationPrincipal User user,
+    public ResponseEntity<List<ProductPhotoDto>> feed(@AuthenticationPrincipal User user,
                                               @RequestParam(required = false, name = "pageNumber", defaultValue = "0") Integer pageNumber,
                                               @RequestParam(required = false,  name = "pageSize", defaultValue = "10") Integer pageSize){
-        List<Product> products = productService.feed(user, pageNumber, pageSize);
+        List<ProductPhotoDto> products = productService.feed(user, pageNumber, pageSize);
         return ResponseEntity.ok(products);
     }
 

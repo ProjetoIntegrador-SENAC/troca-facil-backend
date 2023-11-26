@@ -26,4 +26,10 @@ public class PhotoService {
         photoRepository.save(photoToSave);
 
     }
+
+    @Transactional
+    public Photo findByIdAndAccountProduct(Long id, String group){
+        return photoRepository.findByIdAndAccountProduct(id, group);
+    }
+
 }

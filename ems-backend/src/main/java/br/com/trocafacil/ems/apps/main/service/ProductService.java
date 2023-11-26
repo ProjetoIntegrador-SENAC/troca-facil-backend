@@ -4,7 +4,9 @@ import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
+import br.com.trocafacil.ems.domain.model.photo.Photo;
 import br.com.trocafacil.ems.domain.model.product.Product;
+import br.com.trocafacil.ems.domain.model.product.dto.ProductPhotoDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -85,11 +89,36 @@ public class ProductService {
     }
 
     @Transactional
-    public List<Product> feed(User user, Integer pageNumber, Integer pageSize){
+    public List<ProductPhotoDto> feed(User user, Integer pageNumber, Integer pageSize){
         Account account = accountService.getAccountByUserId(user.getId());
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<Product> products = productRepository.feed(account.getId(), ProductStatus.DISPONIVEL, pageable);
-        return products.stream().toList();
+        Page<Product> productsPage = productRepository.feed(account.getId(), ProductStatus.DISPONIVEL, pageable);
+        List<Product> products = productsPage.stream().toList();
+
+        List<ProductPhotoDto> dataResponse = new ArrayList<>();
+
+        for (Product product: products){
+            Account account1 = product.getAccount();
+
+            String pathphotoAccount = "";
+            String pathphotoProduct = "";
+
+            Photo photoAccount = photoService.findByIdAndAccountProduct(account1.getId(), "ACCOUNT");
+            Photo photoProduct = photoService.findByIdAndAccountProduct(product.getId(), "PRODUCT");
+
+            if (!(photoAccount == null)){
+                pathphotoAccount = photoAccount.getPhotoPath();
+            }
+
+            if (!(photoProduct == null)){
+                pathphotoProduct = photoProduct.getPhotoPath();
+            }
+
+            dataResponse.add(new ProductPhotoDto(product, pathphotoAccount, pathphotoProduct));
+
+        }
+
+        return dataResponse;
     }
 
     @Transactional
