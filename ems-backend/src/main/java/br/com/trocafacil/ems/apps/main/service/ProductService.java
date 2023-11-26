@@ -92,7 +92,7 @@ public class ProductService {
     public List<ProductPhotoDto> feed(User user, Integer pageNumber, Integer pageSize){
         Account account = accountService.getAccountByUserId(user.getId());
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<Product> productsPage = productRepository.feed(account.getId(), ProductStatus.DISPONIVEL, pageable);
+        Page<Product> productsPage = productRepository.findByAccountIdNotAndStatus(account.getId(), ProductStatus.DISPONIVEL, pageable);
         List<Product> products = productsPage.stream().toList();
 
         List<ProductPhotoDto> dataResponse = new ArrayList<>();
