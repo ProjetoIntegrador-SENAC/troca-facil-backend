@@ -61,7 +61,7 @@ public class AccountController {
 
     @PostMapping("/find/photo/{id}")
     public ResponseEntity<String> getPhotoPath(@PathVariable Long id){
-        Photo photo = photoService.findByIdAndAccountProduct(id, PhotoEnum.ACCOUNT.name());
+        Photo photo = photoService.findByExternalIdAndAccountProduct(id, PhotoEnum.ACCOUNT.name()).get();
         return ResponseEntity.ok().body(photo.getPhotoPath());
     }
 

@@ -31,6 +31,9 @@ public class User implements UserDetails {
     @Nonnull
     private String password;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Account account;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

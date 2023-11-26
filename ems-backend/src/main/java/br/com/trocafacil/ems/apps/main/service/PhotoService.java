@@ -20,11 +20,14 @@ public class PhotoService {
     public void saveImage(Long id, String path, String group){
 
         Optional<Photo> photo = photoRepository.findByExternalIdAndAccountProduct(id, group);
-        if (!photo.isEmpty()) return;
+        if (photo.isEmpty()) {
+            var photoToSave = new Photo(null, path, group, id);
+            photoRepository.save(photoToSave);
 
-        var photoToSave = new Photo(null, path, group, id);
-        photoRepository.save(photoToSave);
-
+        } else{
+            photo.get().setPhotoPath(path);
+            photoRepository.save(photo.get());
+        }
     }
 
     public String getPhotoPath (Long external_id, String group){
@@ -34,8 +37,8 @@ public class PhotoService {
     }
 
     @Transactional
-    public Photo findByExternalIdAndAccountProduct(Long id, String group){
-        return photoRepository.findByIdAndAccountProduct(id, group);
+    public Optional<Photo> findByExternalIdAndAccountProduct(Long id, String group){
+        return photoRepository.findByExternalIdAndAccountProduct(id, group);
     }
 
 }

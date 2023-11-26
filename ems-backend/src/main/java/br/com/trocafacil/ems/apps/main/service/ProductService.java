@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -116,18 +117,18 @@ public class ProductService {
             String pathphotoAccount = "";
             String pathphotoProduct = "";
 
-            Photo photoAccount = photoService.findByExternalIdAndAccountProduct(account1.getId(), "ACCOUNT");
-            Photo photoProduct = photoService.findByExternalIdAndAccountProduct(product.getId(), "PRODUCT");
+            Optional<Photo> photoAccount = photoService.findByExternalIdAndAccountProduct(account1.getId(), PhotoEnum.ACCOUNT.name());
+            Optional<Photo> photoProduct = photoService.findByExternalIdAndAccountProduct(product.getId(), PhotoEnum.PRODUCT.name());
 
-            if (!(photoAccount == null)){
-                pathphotoAccount = photoAccount.getPhotoPath();
+            if (photoAccount.isPresent()){
+                pathphotoAccount = photoAccount.get().getPhotoPath();
             }
 
-            if (!(photoProduct == null)){
-                pathphotoProduct = photoProduct.getPhotoPath();
+            if (photoProduct.isPresent()){
+                pathphotoProduct = photoProduct.get().getPhotoPath();
             }
 
-            dataResponse.add(new ProductPhotoDto(product, pathphotoAccount, pathphotoProduct));
+            dataResponse.add(new ProductPhotoDto(product, pathphotoProduct, pathphotoAccount));
 
         }
 

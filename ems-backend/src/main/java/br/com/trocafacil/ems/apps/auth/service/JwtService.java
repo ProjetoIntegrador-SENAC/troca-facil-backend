@@ -47,7 +47,7 @@ public class JwtService {
                     .withSubject(user.getLogin())
                     .withExpiresAt(LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00")))
                     .withClaim("roles", roles)
-                    .withClaim("username", user.getUsername())
+                    .withClaim("username", user.getAccount().getUsername())
                     .sign(algorithm);
 
             return token;
