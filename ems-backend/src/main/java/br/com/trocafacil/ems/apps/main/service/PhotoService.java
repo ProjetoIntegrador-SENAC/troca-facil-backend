@@ -32,4 +32,10 @@ public class PhotoService {
         if (photo.isPresent()) return photo.get().getPhotoPath();
         return "no image";
     }
+
+    @Transactional
+    public Photo findByIdAndAccountProduct(Long id, String group){
+        return photoRepository.findByIdAndAccountProduct(id, group);
+    }
+
 }
