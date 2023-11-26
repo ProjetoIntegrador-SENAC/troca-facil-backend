@@ -16,6 +16,7 @@ import java.time.LocalDate;
 public class ProductPhotoDto {
 
     // f dono produto, preco produto, nome, f produto, username, preco, quantidade
+    private Long id;
     private String name;
     private BigDecimal price;
     private Integer amount;
@@ -48,6 +49,7 @@ public class ProductPhotoDto {
         this.pathPhotoProduct = pathPhotoProduct;
         this.pathPhotoProductOwner = pathPhotoProductOwner;
         this.username = account.getUsername();
+        this.id = product.getId();
 
     }
 
