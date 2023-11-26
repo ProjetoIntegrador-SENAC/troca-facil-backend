@@ -9,6 +9,7 @@ import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.product.SubCategory;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductCreateDto;
+import br.com.trocafacil.ems.domain.model.product.dto.ProductPersonalDto;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductPhotoDto;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +63,7 @@ public class ProductController {
     }
 
     @GetMapping("findall/personal")
-    public ResponseEntity<List<Product>> findAllPersonal(@AuthenticationPrincipal User user){
+    public ResponseEntity<List<ProductPersonalDto>> findAllPersonal(@AuthenticationPrincipal User user){
         return ResponseEntity.ok().body(productService.findAllByUser(user));
     }
 
