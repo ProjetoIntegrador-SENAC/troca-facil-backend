@@ -89,10 +89,11 @@ public class ProductController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/feed")
+    @GetMapping("/feed/{pageNumber}/{pageSize}")
     public ResponseEntity<List<ProductPhotoDto>> feed(@AuthenticationPrincipal User user,
-                                              @RequestParam(required = false, name = "pageNumber", defaultValue = "0") Integer pageNumber,
-                                              @RequestParam(required = false,  name = "pageSize", defaultValue = "10") Integer pageSize){
+                                              @PathVariable(required = false, name = "pageNumber") Integer pageNumber,
+                                              @PathVariable(required = false, name = "pageSize") Integer pageSize){
+
         List<ProductPhotoDto> products = productService.feed(user, pageNumber, pageSize);
         return ResponseEntity.ok(products);
     }
