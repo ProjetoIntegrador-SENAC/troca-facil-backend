@@ -63,7 +63,7 @@ public class ProductController {
     }
 
     @GetMapping("findall/{username}")
-    public ResponseEntity<List<ProductPersonalDto>> findAllPersonal(String username){
+    public ResponseEntity<List<ProductPersonalDto>> findAllPersonal(@PathVariable(name = "username") String username){
         return ResponseEntity.ok().body(productService.findAllByUser(username));
     }
 

@@ -78,8 +78,8 @@ public class ProductService {
                     product.getAmount(),
                     product.getCurCondition(),
                     product.getStatus(),
-                    product.getCategory(),
-                    product.getSubCategory(),
+                    product.getCategory().getDsCategory(),
+                    product.getSubCategory().getDsSubCategory(),
                     photopath
             );
             productPersonalDtos.add(obj);
