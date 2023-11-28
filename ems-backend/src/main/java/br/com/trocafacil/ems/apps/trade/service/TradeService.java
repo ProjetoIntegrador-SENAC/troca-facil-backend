@@ -60,7 +60,8 @@ public class TradeService {
         tradeRepository.save(trade);
 
         log.info("Trade has been changed to closed!!");
-        return closeTrades(trade);
+        var response = closeTrades(trade);
+        return response;
     }
 
     @Transactional
@@ -159,9 +160,14 @@ public class TradeService {
         List<TradeProprosalDTO> proposals = new ArrayList<>();
         for (Trade trade : totalTrades){
             Product proposal = trade.getProductProposal();
+            Product posted = trade.getProductPosted();
+
             String productPhotoPath = photoService.getPhotoPath(proposal.getId(), PhotoEnum.PRODUCT.name());
             String userPhotoPath = photoService.getPhotoPath(proposal.getAccount().getId(), PhotoEnum.ACCOUNT.name());
-            proposals.add(new TradeProprosalDTO(proposal.getAccount().getUsername(), userPhotoPath, productPhotoPath));
+            String productPhotoPathP = photoService.getPhotoPath(posted.getId(), PhotoEnum.PRODUCT.name());
+            String userPhotoPathP = photoService.getPhotoPath(posted.getAccount().getId(), PhotoEnum.ACCOUNT.name());
+
+            proposals.add(TradeProprosalDTO.of(trade, productPhotoPath, userPhotoPath, productPhotoPathP, userPhotoPathP));
         }
         return proposals;
     }
