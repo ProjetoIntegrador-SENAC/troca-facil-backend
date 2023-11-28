@@ -13,8 +13,9 @@ import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
-import br.com.trocafacil.ems.domain.model.trade.dto.TradeCreateDto;
-import br.com.trocafacil.ems.domain.model.trade.dto.TradeProprosalDTO;
+import br.com.trocafacil.ems.domain.model.trade.response.AcceptTradeResponse;
+import br.com.trocafacil.ems.domain.model.trade.request.TradeCreateRequest;
+import br.com.trocafacil.ems.domain.model.trade.response.TradeProprosalResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class TradeService {
     }
 
     @Transactional
-    public Map<String, String> acceptTrade(Long id){
+    public AcceptTradeResponse acceptTrade(Long id){
         Trade trade = findById(id);
         trade.setStatus(Status.FECHADO);
         tradeRepository.save(trade);
@@ -65,7 +66,7 @@ public class TradeService {
     }
 
     @Transactional
-    private Map<String, String> closeTrades(Trade trade){
+    private AcceptTradeResponse closeTrades(Trade trade){
         Product productPosted = trade.getProductPosted();
         Product productProprosal = trade.getProductProposal();
 
@@ -83,13 +84,12 @@ public class TradeService {
             }
         }
         // productService.updateProductsToAvaliable(productsToUpdate);
-        Map<String, String> result = new HashMap<>();
-        result.put("number_proprosal", productProprosal.getAccount().getPhoneNumber());
-        return result;
+        return new AcceptTradeResponse(productProprosal.getAccount().getPhoneNumber());
+
     }
 
     @Transactional
-    public Trade create(TradeCreateDto tradeDto, User user){
+    public Trade create(TradeCreateRequest tradeDto, User user){
         Trade tradeVerify = getTradeByIds(tradeDto.productPostedId(), tradeDto.productProposalId());
         if(!(tradeVerify == null)){
             tradeVerify.setStatus(Status.EM_NEGOCIACAO);
@@ -143,7 +143,7 @@ public class TradeService {
         productRepository.save(trade.getProductPosted());
     }
 
-    public List<TradeProprosalDTO> findProposals(User user) {
+    public List<TradeProprosalResponse> findProposals(User user) {
         Account account = accountService.getAccountByUserId(user.getId());
         List<Product> products = new ArrayList<>();
         List<Trade> totalTrades = new ArrayList<>();
@@ -157,7 +157,7 @@ public class TradeService {
                 }
             }
         }
-        List<TradeProprosalDTO> proposals = new ArrayList<>();
+        List<TradeProprosalResponse> proposals = new ArrayList<>();
         for (Trade trade : totalTrades){
             Product proposal = trade.getProductProposal();
             Product posted = trade.getProductPosted();
@@ -167,7 +167,7 @@ public class TradeService {
             String productPhotoPathP = photoService.getPhotoPath(posted.getId(), PhotoEnum.PRODUCT.name());
             String userPhotoPathP = photoService.getPhotoPath(posted.getAccount().getId(), PhotoEnum.ACCOUNT.name());
 
-            proposals.add(TradeProprosalDTO.of(trade, productPhotoPath, userPhotoPath, productPhotoPathP, userPhotoPathP));
+            proposals.add(TradeProprosalResponse.of(trade, productPhotoPath, userPhotoPath, productPhotoPathP, userPhotoPathP));
         }
         return proposals;
     }

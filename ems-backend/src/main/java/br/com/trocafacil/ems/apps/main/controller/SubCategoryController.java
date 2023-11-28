@@ -4,7 +4,7 @@ import br.com.trocafacil.ems.apps.main.service.CategoryService;
 import br.com.trocafacil.ems.apps.main.service.SubCategoryService;
 import br.com.trocafacil.ems.domain.model.product.Category;
 import br.com.trocafacil.ems.domain.model.product.SubCategory;
-import br.com.trocafacil.ems.domain.model.product.dto.SubCategoryDto;
+import br.com.trocafacil.ems.domain.model.product.request.SubCategoryRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +25,11 @@ public class SubCategoryController {
     private CategoryService categoryService;
 
     @PostMapping("/create")
-    public ResponseEntity<SubCategory> create(@RequestBody @Valid SubCategoryDto subCategoryDto){
+    public ResponseEntity<SubCategory> create(@RequestBody @Valid SubCategoryRequest subCategoryRequest){
 
-        Category category = categoryService.findById(subCategoryDto.category_id());
+        Category category = categoryService.findById(subCategoryRequest.category_id());
 
-        SubCategory subCategory = subCategoryDto.createSubCategory(category);
+        SubCategory subCategory = subCategoryRequest.createSubCategory(category);
         return ResponseEntity.ok(subCategoryService.save(subCategory));
     }
 

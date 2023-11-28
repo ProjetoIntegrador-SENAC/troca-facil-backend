@@ -1,10 +1,10 @@
-package br.com.trocafacil.ems.domain.model.product.dto;
+package br.com.trocafacil.ems.domain.model.product.request;
 
 import br.com.trocafacil.ems.domain.model.product.Category;
 import br.com.trocafacil.ems.domain.model.product.SubCategory;
 import jakarta.validation.constraints.NotNull;
 
-public record SubCategoryDto (
+public record SubCategoryRequest(
         @NotNull
         String dsSubCategory,
         Long category_id

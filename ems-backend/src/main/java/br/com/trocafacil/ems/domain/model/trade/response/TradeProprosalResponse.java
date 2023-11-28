@@ -1,4 +1,4 @@
-package br.com.trocafacil.ems.domain.model.trade.dto;
+package br.com.trocafacil.ems.domain.model.trade.response;
 
 import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductPhotoDto;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TradeProprosalDTO{
+public class TradeProprosalResponse {
     private Long id;
     private LocalDate createDate;
     private LocalDate settleDate;
@@ -21,13 +21,13 @@ public class TradeProprosalDTO{
     private Status status;
 
 
-    public static TradeProprosalDTO of(Trade trade, String photoProductProposal, String photoOnwerProposal, String photoProductPosted, String photoOwnerPosted){
-        TradeProprosalDTO td = new TradeProprosalDTO();
+    public static TradeProprosalResponse of(Trade trade, String photoProductProposal, String photoOnwerProposal, String photoProductPosted, String photoOwnerPosted){
+        TradeProprosalResponse td = new TradeProprosalResponse();
          td.setId(trade.getId());
          td.setCreateDate(trade.getCreateDate());
          td.setSettleDate(trade.getSettleDate());
          td.setProductProposal(new ProductPhotoDto(trade.getProductProposal(), photoProductProposal, photoOnwerProposal));
-         td.setProductProposal(new ProductPhotoDto(trade.getProductPosted(), photoProductPosted, photoOwnerPosted));
+         td.setProductPosted(new ProductPhotoDto(trade.getProductPosted(), photoProductPosted, photoOwnerPosted));
          td.setStatus(trade.getStatus());
 
          return td;

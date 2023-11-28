@@ -1,4 +1,4 @@
-package br.com.trocafacil.ems.domain.model.product.dto;
+package br.com.trocafacil.ems.domain.model.product.request;
 
 import br.com.trocafacil.ems.domain.helpers.enums.ProductCondition;
 import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
@@ -12,7 +12,7 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record ProductCreateDto (
+public record ProductCreateRequest(
 
         Long id,
         @NotNull String name,

@@ -5,15 +5,13 @@ import br.com.trocafacil.ems.apps.main.service.MyBlobService;
 import br.com.trocafacil.ems.apps.main.service.ProductService;
 import br.com.trocafacil.ems.apps.main.service.SubCategoryService;
 import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
-import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.product.SubCategory;
-import br.com.trocafacil.ems.domain.model.product.dto.ProductCreateDto;
-import br.com.trocafacil.ems.domain.model.product.dto.ProductPersonalDto;
+import br.com.trocafacil.ems.domain.model.product.request.ProductCreateRequest;
+import br.com.trocafacil.ems.domain.model.product.response.ProductPersonalResponse;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductPhotoDto;
-import com.azure.spring.cloud.autoconfigure.implementation.jms.properties.AzureServiceBusJmsProperties;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +43,7 @@ public class ProductController {
     private MyBlobService myBlobService;
 
     @PostMapping("/create")
-    public ResponseEntity<Product> create(@Validated @RequestBody ProductCreateDto productDto, @AuthenticationPrincipal User user){
+    public ResponseEntity<Product> create(@Validated @RequestBody ProductCreateRequest productDto, @AuthenticationPrincipal User user){
         Account account = accountService.getAccountByUserId(user.getId());
         SubCategory subCategory = subCategoryService.findById(productDto.subCategoryId());
         Product product = productDto.createProduct(account, subCategory);
@@ -66,7 +64,7 @@ public class ProductController {
     }
 
     @GetMapping("findall/{username}")
-    public ResponseEntity<List<ProductPersonalDto>> findAllPersonal(@PathVariable(name = "username") String username){
+    public ResponseEntity<List<ProductPersonalResponse>> findAllPersonal(@PathVariable(name = "username") String username){
         return ResponseEntity.ok().body(productService.findAllByUser(username));
     }
 

@@ -2,14 +2,12 @@ package br.com.trocafacil.ems.apps.main.service;
 
 import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
-import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
-import br.com.trocafacil.ems.domain.model.account.dto.AccountPhotoDto;
 import br.com.trocafacil.ems.domain.model.photo.Photo;
 import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import br.com.trocafacil.ems.domain.model.product.Product;
-import br.com.trocafacil.ems.domain.model.product.dto.ProductPersonalDto;
+import br.com.trocafacil.ems.domain.model.product.response.ProductPersonalResponse;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductPhotoDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -66,14 +64,14 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductPersonalDto> findAllByUser(String username){
+    public List<ProductPersonalResponse> findAllByUser(String username){
         Account account = accountService.findByUsername(username);
         List<Product> products = productRepository.findAllByAccount_id(account.getId());
-        List<ProductPersonalDto> productPersonalDtos = new ArrayList<>();
+        List<ProductPersonalResponse> productPersonalResponses = new ArrayList<>();
 
         for (Product product : products) {
             String photopath = photoService.getPhotoPath(product.getId(), PhotoEnum.PRODUCT.name());
-            ProductPersonalDto obj = new ProductPersonalDto(
+            ProductPersonalResponse obj = new ProductPersonalResponse(
                     product.getId(),
                     product.getName(),
                     product.getPrice(),
@@ -84,10 +82,10 @@ public class ProductService {
                     product.getSubCategory().getDsSubCategory(),
                     photopath
             );
-            productPersonalDtos.add(obj);
+            productPersonalResponses.add(obj);
         }
 
-        return productPersonalDtos;
+        return productPersonalResponses;
     }
 
     @Transactional
@@ -139,6 +137,11 @@ public class ProductService {
 
     @Transactional
     public void deleteById(long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isEmpty()){
+            throw new EntityNotFoundException();
+        }
+        photoService.deleteImage(product.get().getId(), PhotoEnum.PRODUCT.name());
         productRepository.deleteById(id);
     }
 

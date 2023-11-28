@@ -5,7 +5,7 @@ import br.com.trocafacil.ems.apps.trade.repository.TradeRepository;
 import br.com.trocafacil.ems.domain.helpers.enums.DeliveryStatus;
 import br.com.trocafacil.ems.domain.model.trade.Delivery;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
-import br.com.trocafacil.ems.domain.model.trade.dto.DeliveryDto;
+import br.com.trocafacil.ems.domain.model.trade.request.DeliveryRequest;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +24,13 @@ public class DeliveryService {
     @Autowired
     private TradeService tradeService;
 
-    public Delivery create(DeliveryDto deliveryDto){
-        Optional<Trade> tradeOptional = tradeRepository.findById(deliveryDto.tradeId());
+    public Delivery create(DeliveryRequest deliveryRequest){
+        Optional<Trade> tradeOptional = tradeRepository.findById(deliveryRequest.tradeId());
 
         if (tradeOptional.isEmpty()){
             throw new EntityNotFoundException();
         }
-        Delivery delivery = deliveryDto.createDelivery(tradeOptional.get());
+        Delivery delivery = deliveryRequest.createDelivery(tradeOptional.get());
         return deliveryRepository.save(delivery);
     }
 

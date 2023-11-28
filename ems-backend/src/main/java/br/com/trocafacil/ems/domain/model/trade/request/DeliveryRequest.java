@@ -1,11 +1,11 @@
-package br.com.trocafacil.ems.domain.model.trade.dto;
+package br.com.trocafacil.ems.domain.model.trade.request;
 
 import br.com.trocafacil.ems.domain.helpers.enums.DeliveryStatus;
 import br.com.trocafacil.ems.domain.model.trade.Delivery;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import jakarta.validation.constraints.NotNull;
 
-public record DeliveryDto (
+public record DeliveryRequest(
         @NotNull Long tradeId,
         @NotNull String cep,
         @NotNull Integer number

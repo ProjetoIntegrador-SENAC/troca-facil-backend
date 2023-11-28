@@ -2,7 +2,7 @@ package br.com.trocafacil.ems.apps.trade.controller;
 
 import br.com.trocafacil.ems.apps.trade.service.DeliveryService;
 import br.com.trocafacil.ems.domain.model.trade.Delivery;
-import br.com.trocafacil.ems.domain.model.trade.dto.DeliveryDto;
+import br.com.trocafacil.ems.domain.model.trade.request.DeliveryRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class DeliveryController {
     private DeliveryService deliveryService;
 
     @PostMapping("/create")
-    public ResponseEntity<Delivery> create(@Valid @RequestBody DeliveryDto deliveryDto){
-        return ResponseEntity.ok(deliveryService.create(deliveryDto));
+    public ResponseEntity<Delivery> create(@Valid @RequestBody DeliveryRequest deliveryRequest){
+        return ResponseEntity.ok(deliveryService.create(deliveryRequest));
     }
 
     @PostMapping("/concluded/{id}")

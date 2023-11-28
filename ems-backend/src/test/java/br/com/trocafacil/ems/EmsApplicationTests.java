@@ -1,26 +1,6 @@
 package br.com.trocafacil.ems;
 
-import br.com.trocafacil.ems.apps.main.service.AccountService;
-import br.com.trocafacil.ems.domain.helpers.enums.ProductCondition;
-import br.com.trocafacil.ems.domain.model.account.Account;
-import br.com.trocafacil.ems.domain.model.account.Address;
-import br.com.trocafacil.ems.domain.model.account.User;
-import br.com.trocafacil.ems.domain.model.product.Product;
-import br.com.trocafacil.ems.domain.model.product.dto.ProductCreateDto;
-import br.com.trocafacil.ems.domain.model.token.TokenDto;
-import br.com.trocafacil.ems.domain.model.trade.Trade;
-import br.com.trocafacil.ems.domain.model.trade.dto.TradeCreateDto;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
