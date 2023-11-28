@@ -14,9 +14,6 @@ import br.com.trocafacil.ems.apps.main.repository.PhotoRepository;
 public class PhotoService {
 
     @Autowired
-    private MyBlobService myBlobService;
-
-    @Autowired
     private PhotoRepository photoRepository;
 
     @Transactional
@@ -31,18 +28,6 @@ public class PhotoService {
             photo.get().setPhotoPath(path);
             photoRepository.save(photo.get());
         }
-    }
-
-    public String deleteImage(Long id, String accountProduct){
-        Optional<Photo> photo = photoRepository.findByExternalIdAndAccountProduct(id, accountProduct);
-        if (photo.isPresent()){
-            String filename = photo.get().getPhotoPath().replace(myBlobService.getBasePath(), "");
-            myBlobService.deleteFile(filename);
-            photoRepository.delete(photo.get());
-        } else {
-            return "Failed to delete image";
-        }
-        return "Image deleted";
     }
 
     public String getPhotoPath (Long external_id, String group){

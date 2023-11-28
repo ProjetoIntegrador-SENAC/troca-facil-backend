@@ -141,7 +141,6 @@ public class ProductService {
         if (product.isEmpty()){
             throw new EntityNotFoundException();
         }
-        photoService.deleteImage(product.get().getId(), PhotoEnum.PRODUCT.name());
         productRepository.deleteById(id);
     }
 
