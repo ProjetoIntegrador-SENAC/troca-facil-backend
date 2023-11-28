@@ -48,7 +48,7 @@ public class AccountService {
 
     @Transactional
     public Account findByUsername(String username){
-        Optional<Account> optionalAccount = this.accountRepository.findByUserName(username);
+        Optional<Account> optionalAccount = this.accountRepository.findByUsername(username);
         if (optionalAccount.isPresent()){
             return optionalAccount.get();
         }else{

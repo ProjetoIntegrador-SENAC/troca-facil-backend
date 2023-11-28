@@ -64,8 +64,8 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductPersonalDto> findAllByUser(User user){
-        Account account = accountService.getAccountByUserId(user.getId());
+    public List<ProductPersonalDto> findAllByUser(String username){
+        Account account = accountService.findByUsername(username);
         List<Product> products = productRepository.findAllByAccount_id(account.getId());
         List<ProductPersonalDto> productPersonalDtos = new ArrayList<>();
 

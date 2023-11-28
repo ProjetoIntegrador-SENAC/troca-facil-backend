@@ -62,9 +62,9 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("findall/personal")
-    public ResponseEntity<List<ProductPersonalDto>> findAllPersonal(@AuthenticationPrincipal User user){
-        return ResponseEntity.ok().body(productService.findAllByUser(user));
+    @GetMapping("findall/{username}")
+    public ResponseEntity<List<ProductPersonalDto>> findAllPersonal(String username){
+        return ResponseEntity.ok().body(productService.findAllByUser(username));
     }
 
     @DeleteMapping("/delete/{id}")

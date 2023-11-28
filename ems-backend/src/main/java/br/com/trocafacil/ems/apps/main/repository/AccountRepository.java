@@ -10,6 +10,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Account findByUsernameOrDocument(String cpj, String document);
 
-    Optional<Account> findByUserName(String username);
+    Optional<Account> findByUsername(String username);
 
 }
