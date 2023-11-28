@@ -8,6 +8,7 @@ import br.com.trocafacil.ems.domain.model.CustomResponseListDto;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.account.dto.AccountCreateDto;
+import br.com.trocafacil.ems.domain.model.account.dto.AccountPhotoDto;
 import br.com.trocafacil.ems.domain.model.photo.Photo;
 import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import jakarta.persistence.EntityNotFoundException;
@@ -46,9 +47,11 @@ public class AccountController {
     }
 
     @GetMapping("/find/{username}")
-    public ResponseEntity<Account> find(@PathVariable(name = "username") String username ){
+    public ResponseEntity<AccountPhotoDto> find(@PathVariable(name = "username") String username ){
         var account = accountService.findByUsername(username);
-        return ResponseEntity.ok(account);
+        String photo = photoService.getPhotoPath(account.getId(), "ACCOUNT");
+        AccountPhotoDto accountPhotoDto = new AccountPhotoDto(account, photo);
+        return ResponseEntity.ok(accountPhotoDto);
     }
 
     @PostMapping("/create")

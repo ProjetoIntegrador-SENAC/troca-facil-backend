@@ -4,6 +4,8 @@ import br.com.caelum.stella.validation.CPFValidator;
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.domain.model.CustomResponseListDto;
 import br.com.trocafacil.ems.domain.model.account.Account;
+import br.com.trocafacil.ems.domain.model.account.dto.AccountPhotoDto;
+import br.com.trocafacil.ems.domain.model.photo.Photo;
 import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +51,9 @@ public class AccountService {
     @Transactional
     public Account findByUsername(String username){
         Optional<Account> optionalAccount = this.accountRepository.findByUsername(username);
-        if (optionalAccount.isPresent()){
-            return optionalAccount.get();
-        }else{
-            throw new EntityNotFoundException("Conta não encontrada!");
-        }
-
+        if (!optionalAccount.isPresent()) throw new EntityNotFoundException("Conta não encontrada!");
+        Account account = optionalAccount.get();
+        return account;
     }
 
 

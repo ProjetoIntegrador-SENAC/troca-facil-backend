@@ -4,6 +4,7 @@ import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
+import br.com.trocafacil.ems.domain.model.account.dto.AccountPhotoDto;
 import br.com.trocafacil.ems.domain.model.photo.Photo;
 import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import br.com.trocafacil.ems.domain.model.product.Product;
