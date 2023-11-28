@@ -4,6 +4,8 @@ import br.com.trocafacil.ems.apps.main.service.AccountService;
 import br.com.trocafacil.ems.apps.main.service.MyBlobService;
 import br.com.trocafacil.ems.apps.main.service.ProductService;
 import br.com.trocafacil.ems.apps.main.service.SubCategoryService;
+import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
+import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.product.Product;
@@ -11,6 +13,7 @@ import br.com.trocafacil.ems.domain.model.product.SubCategory;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductCreateDto;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductPersonalDto;
 import br.com.trocafacil.ems.domain.model.product.dto.ProductPhotoDto;
+import com.azure.spring.cloud.autoconfigure.implementation.jms.properties.AzureServiceBusJmsProperties;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,4 +100,18 @@ public class ProductController {
         List<ProductPhotoDto> products = productService.feed(user, pageNumber, pageSize);
         return ResponseEntity.ok(products);
     }
+
+    @GetMapping("/amount/total")
+    public Long getTotalAmountProduct(){
+        return productService.getTotalAmountProduct();
+    }
+
+    @GetMapping("/amount/{status}")
+    public Long getAmountProductByStatus(@PathVariable(required = false, name = "status", value = "EM_NEGOCIACAO")
+                                         ProductStatus status){
+        return productService.getTotalAmountProductByStatus(status);
+    }
+
+
+
 }

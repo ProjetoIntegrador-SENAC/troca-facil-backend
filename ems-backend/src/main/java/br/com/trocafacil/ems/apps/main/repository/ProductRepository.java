@@ -23,4 +23,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByAccountIdNotAndStatus(Long id, ProductStatus status, Pageable pageable);
 
+    Long countDistinctById(Long id);
+
+    Long countDistinctByStatus(ProductStatus status);
+
 }

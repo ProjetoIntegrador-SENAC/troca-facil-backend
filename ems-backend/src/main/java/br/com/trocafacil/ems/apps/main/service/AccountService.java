@@ -94,4 +94,8 @@ public class AccountService {
         return accountRepository.findByUsernameOrDocument(username, document);
     }
 
+    @Transactional
+    public Long getTotalAmountAccount() {
+        return accountRepository.count();
+    }
 }

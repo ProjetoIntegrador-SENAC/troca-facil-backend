@@ -2,6 +2,7 @@ package br.com.trocafacil.ems.apps.main.service;
 
 import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
+import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.account.dto.AccountPhotoDto;
@@ -146,5 +147,16 @@ public class ProductService {
         photoService.saveImage(id, imagePath, "PRODUCT");
         return "Profile image saved with success!";
     }
+
+    @Transactional
+    public Long getTotalAmountProduct(){
+        return productRepository.count();
+    }
+
+    @Transactional
+    public Long getTotalAmountProductByStatus(ProductStatus status){
+        return productRepository.countDistinctByStatus(status);
+    }
+
 
 }

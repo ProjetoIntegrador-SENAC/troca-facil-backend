@@ -152,4 +152,10 @@ public class TradeService {
         }
         return totalTrades;
     }
+
+    public Long totalAmountExchanges(){
+        return tradeRepository.countDistinctByStatus(Status.CONCLUIDO);
+    }
+
+
 }

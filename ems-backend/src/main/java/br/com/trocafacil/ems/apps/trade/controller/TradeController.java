@@ -4,10 +4,14 @@ import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.apps.trade.repository.TradeRepository;
 import br.com.trocafacil.ems.apps.trade.service.TradeService;
+import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import br.com.trocafacil.ems.domain.model.trade.dto.TradeCreateDto;
+import com.azure.core.annotation.Get;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -70,5 +74,12 @@ public class TradeController {
     public ResponseEntity<Trade> cancelledTrade(@PathVariable Long id){
         Trade trade = tradeService.cancellTrade(id);
         return ResponseEntity.ok().body(trade);
+    }
+
+    @GetMapping("/amount/{status}")
+    public Long a(@PathVariable(
+            name = "status", required = false, value = "CONCLUIDO")
+                      Status status){
+        return tradeRepository.countDistinctByStatus(Status.CONCLUIDO);
     }
 }

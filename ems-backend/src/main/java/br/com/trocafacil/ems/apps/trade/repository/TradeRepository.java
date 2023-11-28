@@ -19,4 +19,9 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
 
     List<Trade> findAllByProductPostedAndStatus(Product productPosted, Status status);
 
+    Long countDistinctByStatus(Status status);
+
+
+
+
 }
