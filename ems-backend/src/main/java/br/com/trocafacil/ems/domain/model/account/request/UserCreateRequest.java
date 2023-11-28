@@ -1,4 +1,4 @@
-package br.com.trocafacil.ems.domain.model.account.dto;
+package br.com.trocafacil.ems.domain.model.account.request;
 
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.Address;
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
-public record UserCreateDto (
+public record UserCreateRequest(
         String login,
         String password,
         @NotNull String address,

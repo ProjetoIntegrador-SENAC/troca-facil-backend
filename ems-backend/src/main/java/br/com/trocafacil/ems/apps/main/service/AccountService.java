@@ -4,15 +4,12 @@ import br.com.caelum.stella.validation.CPFValidator;
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.domain.model.CustomResponseListDto;
 import br.com.trocafacil.ems.domain.model.account.Account;
-import br.com.trocafacil.ems.domain.model.account.dto.AccountPhotoDto;
-import br.com.trocafacil.ems.domain.model.photo.Photo;
 import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

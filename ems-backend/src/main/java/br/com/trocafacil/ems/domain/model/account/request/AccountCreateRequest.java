@@ -1,11 +1,11 @@
-package br.com.trocafacil.ems.domain.model.account.dto;
+package br.com.trocafacil.ems.domain.model.account.request;
 
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.Address;
 import br.com.trocafacil.ems.domain.model.account.User;
 import jakarta.validation.constraints.NotNull;
 
-public record AccountCreateDto (
+public record AccountCreateRequest(
         @NotNull String fullName,
         @NotNull String username,
         @NotNull String document,

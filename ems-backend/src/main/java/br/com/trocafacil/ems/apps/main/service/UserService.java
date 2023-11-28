@@ -7,7 +7,7 @@ import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.Address;
 import br.com.trocafacil.ems.domain.model.account.Role;
 import br.com.trocafacil.ems.domain.model.account.User;
-import br.com.trocafacil.ems.domain.model.account.dto.UserCreateDto;
+import br.com.trocafacil.ems.domain.model.account.request.UserCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -31,7 +31,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<CustomResponseDto<User>> create(UserCreateDto userCreateDto){
+    public ResponseEntity<CustomResponseDto<User>> create(UserCreateRequest userCreateRequest){
         try{
             Role role = roleService.findByName("ROLE_USER");
             if (role == null){
@@ -40,7 +40,7 @@ public class UserService {
                 role = roleService.save(nRole);
             }
 
-            User user = userCreateDto.createUser(role);
+            User user = userCreateRequest.createUser(role);
             String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
             user.setPassword(encryptedPassword);
 
@@ -50,14 +50,14 @@ public class UserService {
 
             User userCreated = userRepository.save(user);
 
-            Address address = addressService.save(userCreateDto.createAddress());
+            Address address = addressService.save(userCreateRequest.createAddress());
 
-            Account account = userCreateDto.createAccount(userCreated, address);
+            Account account = userCreateRequest.createAccount(userCreated, address);
 
             if (accountService.getAccountByDocumentOrUsername(account.getUsername(), account.getDocument()) != null){
                 throw new CustomResponseException(HttpStatusCode.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), "A Conta já existe!");
             }
-            CustomResponseDto<User> response = new CustomResponseDto<User>(accountService.save(userCreateDto.createAccount(userCreated, address)).getUser(), "");
+            CustomResponseDto<User> response = new CustomResponseDto<User>(accountService.save(userCreateRequest.createAccount(userCreated, address)).getUser(), "");
             return ResponseEntity.ok(response);
 
         }catch (CustomResponseException ex){

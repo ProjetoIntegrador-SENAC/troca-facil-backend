@@ -1,4 +1,4 @@
-package br.com.trocafacil.ems.domain.model.account.dto;
+package br.com.trocafacil.ems.domain.model.account.response;
 
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.Address;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @ToString
 @Getter
 @Setter
-public class AccountPhotoDto {
+public class AccountPhotoResponse {
 
     String login;
     @NotNull Long id;
@@ -26,7 +26,7 @@ public class AccountPhotoDto {
     @NotNull String phone;
     @NotNull String photoPath;
 
-    public AccountPhotoDto(Account account,String photoPath){
+    public AccountPhotoResponse(Account account, String photoPath){
         Address address1 = account.getAddress();
 
         this.login = account.getUser().getLogin();

@@ -7,8 +7,8 @@ import br.com.trocafacil.ems.apps.main.service.PhotoService;
 import br.com.trocafacil.ems.domain.model.CustomResponseListDto;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
-import br.com.trocafacil.ems.domain.model.account.dto.AccountCreateDto;
-import br.com.trocafacil.ems.domain.model.account.dto.AccountPhotoDto;
+import br.com.trocafacil.ems.domain.model.account.request.AccountCreateRequest;
+import br.com.trocafacil.ems.domain.model.account.response.AccountPhotoResponse;
 import br.com.trocafacil.ems.domain.model.photo.Photo;
 import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import jakarta.persistence.EntityNotFoundException;
@@ -47,15 +47,15 @@ public class AccountController {
     }
 
     @GetMapping("/find/{username}")
-    public ResponseEntity<AccountPhotoDto> find(@PathVariable(name = "username") String username ){
+    public ResponseEntity<AccountPhotoResponse> find(@PathVariable(name = "username") String username ){
         var account = accountService.findByUsername(username);
         String photo = photoService.getPhotoPath(account.getId(), "ACCOUNT");
-        AccountPhotoDto accountPhotoDto = new AccountPhotoDto(account, photo);
-        return ResponseEntity.ok(accountPhotoDto);
+        AccountPhotoResponse accountPhotoResponse = new AccountPhotoResponse(account, photo);
+        return ResponseEntity.ok(accountPhotoResponse);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Account> create(@Valid @RequestBody AccountCreateDto accountDto, @AuthenticationPrincipal User user) {
+    public ResponseEntity<Account> create(@Valid @RequestBody AccountCreateRequest accountDto, @AuthenticationPrincipal User user) {
         Account account = accountDto.createAccount(user);
         addressService.save(accountDto.address());
         Account accCreated = accountService.save(account);

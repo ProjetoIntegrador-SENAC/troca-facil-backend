@@ -4,25 +4,17 @@ import br.com.trocafacil.ems.apps.main.repository.RoleRepository;
 import br.com.trocafacil.ems.apps.main.service.AccountService;
 import br.com.trocafacil.ems.apps.main.service.AddressService;
 import br.com.trocafacil.ems.apps.main.service.UserService;
-import br.com.trocafacil.ems.config.exception.CustomResponseException;
-import br.com.trocafacil.ems.domain.model.account.Account;
-import br.com.trocafacil.ems.domain.model.account.Address;
 import br.com.trocafacil.ems.domain.model.account.Role;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.CustomResponseDto;
-import br.com.trocafacil.ems.domain.model.account.dto.UserCreateDto;
+import br.com.trocafacil.ems.domain.model.account.request.UserCreateRequest;
 import br.com.trocafacil.ems.domain.model.token.TokenDto;
 import br.com.trocafacil.ems.apps.auth.repository.LoginRepository;
 import br.com.trocafacil.ems.apps.auth.service.JwtService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,8 +58,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<CustomResponseDto<User>> register(@RequestBody @Validated UserCreateDto userCreateDto){
-        return userService.create(userCreateDto);
+    public ResponseEntity<CustomResponseDto<User>> register(@RequestBody @Validated UserCreateRequest userCreateRequest){
+        return userService.create(userCreateRequest);
     }
 
     @GetMapping("/token")
