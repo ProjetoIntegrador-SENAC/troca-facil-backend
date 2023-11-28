@@ -1,5 +1,6 @@
 package br.com.trocafacil.ems.apps.main.service;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,9 @@ import br.com.trocafacil.ems.apps.main.repository.PhotoRepository;
 
 @Service
 public class PhotoService {
-    
+
+    @Autowired
+    private MyBlobService myBlobService;
 
     @Autowired
     private PhotoRepository photoRepository;
@@ -28,6 +31,18 @@ public class PhotoService {
             photo.get().setPhotoPath(path);
             photoRepository.save(photo.get());
         }
+    }
+
+    public String deleteImage(Long id, String accountProduct){
+        Optional<Photo> photo = photoRepository.findByExternalIdAndAccountProduct(id, accountProduct);
+        if (photo.isPresent()){
+            String filename = photo.get().getPhotoPath().replace(myBlobService.getBasePath(), "");
+            myBlobService.deleteFile(filename);
+            photoRepository.delete(photo.get());
+        } else {
+            return "Failed to delete image";
+        }
+        return "Image deleted";
     }
 
     public String getPhotoPath (Long external_id, String group){

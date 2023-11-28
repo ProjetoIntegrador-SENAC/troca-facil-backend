@@ -58,6 +58,16 @@ public class MyBlobService {
         return "File uploaded with success!";
     }
 
+    public String deleteFile(String filename) {
+        log.info("Azure delete file BEGIN {}", filename);
+        BlobClient client = containerClient().getBlobClient(filename);
+        if (client.exists()) {
+            client.delete();
+        } else {
+            log.info("The file is not found on azure");
+        }
+        return "Filed deleted with success!";
+    }
 
     public String storeProductFile(String filename, InputStream content, long length, Long id) {
         log.info("Azure store file BEGIN {}", filename);
