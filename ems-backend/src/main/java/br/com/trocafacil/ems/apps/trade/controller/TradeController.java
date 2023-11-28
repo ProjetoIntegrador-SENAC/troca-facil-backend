@@ -78,7 +78,7 @@ public class TradeController {
 
     @GetMapping("/amount/{status}")
     public Long a(@PathVariable(
-            name = "status", required = false, value = "CONCLUIDO")
+            name = "status", required = false)
                       Status status){
         return tradeRepository.countDistinctByStatus(Status.CONCLUIDO);
     }

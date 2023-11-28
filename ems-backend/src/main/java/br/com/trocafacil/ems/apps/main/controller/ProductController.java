@@ -107,7 +107,7 @@ public class ProductController {
     }
 
     @GetMapping("/amount/{status}")
-    public Long getAmountProductByStatus(@PathVariable(required = false, name = "status", value = "EM_NEGOCIACAO")
+    public Long getAmountProductByStatus(@PathVariable(required = false, name = "status")
                                          ProductStatus status){
         return productService.getTotalAmountProductByStatus(status);
     }
