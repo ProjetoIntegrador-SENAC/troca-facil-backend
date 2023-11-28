@@ -59,6 +59,9 @@ public class ProductService {
     @Transactional
     public void updateProductToExchanged(Product product){
         log.info("Updating products to exchanged");
+        if (product.getStatus() == ProductStatus.TROCADO){
+            throw new IllegalStateException("Produto está trocado!");
+        }
         product.setStatus(ProductStatus.TROCADO);
         productRepository.save(product);
     }
