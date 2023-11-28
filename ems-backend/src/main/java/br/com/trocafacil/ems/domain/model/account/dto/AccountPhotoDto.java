@@ -3,13 +3,13 @@ package br.com.trocafacil.ems.domain.model.account.dto;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.Address;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString
+@Getter
+@Setter
 public class AccountPhotoDto {
 
     String login;
@@ -17,7 +17,7 @@ public class AccountPhotoDto {
     @NotNull String address;
     String complement;
     @NotNull int number;
-    @NotNull LocalDate birthday;
+    LocalDate birthday;
     @NotNull String cpf;
     @NotNull String district;
     @NotNull String name;
