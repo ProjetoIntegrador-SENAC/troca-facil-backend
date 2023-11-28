@@ -8,6 +8,7 @@ import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.account.User;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import br.com.trocafacil.ems.domain.model.trade.dto.TradeCreateDto;
+import br.com.trocafacil.ems.domain.model.trade.dto.TradeProprosalDTO;
 import com.azure.core.annotation.Get;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EnumType;
@@ -46,7 +47,7 @@ public class TradeController {
     }
 
     @GetMapping("/findProposals")
-    public ResponseEntity<List<Trade>> findProposals(@AuthenticationPrincipal User user){
+    public ResponseEntity<List<TradeProprosalDTO>> findProposals(@AuthenticationPrincipal User user){
         return ResponseEntity.ok(tradeService.findProposals(user));
     }
 

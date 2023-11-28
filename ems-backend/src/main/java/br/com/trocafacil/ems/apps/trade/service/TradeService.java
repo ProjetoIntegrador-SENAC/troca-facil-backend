@@ -3,19 +3,21 @@ package br.com.trocafacil.ems.apps.trade.service;
 import br.com.trocafacil.ems.apps.main.repository.AccountRepository;
 import br.com.trocafacil.ems.apps.main.repository.ProductRepository;
 import br.com.trocafacil.ems.apps.main.service.AccountService;
+import br.com.trocafacil.ems.apps.main.service.PhotoService;
 import br.com.trocafacil.ems.apps.main.service.ProductService;
 import br.com.trocafacil.ems.apps.trade.repository.TradeRepository;
 import br.com.trocafacil.ems.domain.helpers.enums.ProductStatus;
 import br.com.trocafacil.ems.domain.helpers.enums.Status;
 import br.com.trocafacil.ems.domain.model.account.Account;
 import br.com.trocafacil.ems.domain.model.account.User;
+import br.com.trocafacil.ems.domain.model.photo.enums.PhotoEnum;
 import br.com.trocafacil.ems.domain.model.product.Product;
 import br.com.trocafacil.ems.domain.model.trade.Trade;
 import br.com.trocafacil.ems.domain.model.trade.dto.TradeCreateDto;
+import br.com.trocafacil.ems.domain.model.trade.dto.TradeProprosalDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +40,9 @@ public class TradeService {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private PhotoService photoService;
 
     @Transactional
     public Trade findById(Long id){
@@ -137,7 +142,7 @@ public class TradeService {
         productRepository.save(trade.getProductPosted());
     }
 
-    public List<Trade> findProposals(User user) {
+    public List<TradeProprosalDTO> findProposals(User user) {
         Account account = accountService.getAccountByUserId(user.getId());
         List<Product> products = new ArrayList<>();
         List<Trade> totalTrades = new ArrayList<>();
@@ -151,7 +156,14 @@ public class TradeService {
                 }
             }
         }
-        return totalTrades;
+        List<TradeProprosalDTO> proposals = new ArrayList<>();
+        for (Trade trade : totalTrades){
+            Product proposal = trade.getProductProposal();
+            String productPhotoPath = photoService.getPhotoPath(proposal.getId(), PhotoEnum.PRODUCT.name());
+            String userPhotoPath = photoService.getPhotoPath(proposal.getAccount().getId(), PhotoEnum.ACCOUNT.name());
+            proposals.add(new TradeProprosalDTO(proposal.getAccount().getUsername(), userPhotoPath, productPhotoPath));
+        }
+        return proposals;
     }
 
     public Long totalAmountExchanges(){
