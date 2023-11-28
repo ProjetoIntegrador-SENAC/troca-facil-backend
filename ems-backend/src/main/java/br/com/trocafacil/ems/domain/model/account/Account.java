@@ -36,6 +36,7 @@ public class Account {
 
     @Nonnull
     @OneToOne
+    @JsonIgnore
     private User user;
 
     @Nonnull

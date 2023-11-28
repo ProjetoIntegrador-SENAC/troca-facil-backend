@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,7 @@ public class AccountService {
     @Transactional
     public Account findById(Long id){
         Optional<Account> account = this.accountRepository.findById(id);
+
         if (account.isEmpty()) {
             throw new EntityNotFoundException();
         }
@@ -42,6 +44,17 @@ public class AccountService {
     public Account save(Account account){
         //verifyDocument(account);
         return accountRepository.save(account);
+    }
+
+    @Transactional
+    public Account findByUsername(String username){
+        Optional<Account> optionalAccount = this.accountRepository.findByUserName(username);
+        if (optionalAccount.isPresent()){
+            return optionalAccount.get();
+        }else{
+            throw new EntityNotFoundException("Conta não encontrada!");
+        }
+
     }
 
 

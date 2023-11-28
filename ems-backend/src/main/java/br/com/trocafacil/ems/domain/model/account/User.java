@@ -1,5 +1,6 @@
 package br.com.trocafacil.ems.domain.model.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,6 +33,7 @@ public class User implements UserDetails {
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Account account;
 
 

@@ -45,9 +45,9 @@ public class AccountController {
         return ResponseEntity.ok(accountService.findAll());
     }
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Account> find(@PathVariable Long id){
-        var account = accountService.findById(id);
+    @GetMapping("/find/{username}")
+    public ResponseEntity<Account> find(@PathVariable(name = "username") String username ){
+        var account = accountService.findByUsername(username);
         return ResponseEntity.ok(account);
     }
 
