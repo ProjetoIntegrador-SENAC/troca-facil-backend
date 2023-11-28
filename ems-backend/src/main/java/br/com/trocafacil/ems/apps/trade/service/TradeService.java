@@ -15,12 +15,11 @@ import br.com.trocafacil.ems.domain.model.trade.dto.TradeCreateDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -50,18 +49,17 @@ public class TradeService {
     }
 
     @Transactional
-    public Trade acceptTrade(Long id){
+    public Map<String, String> acceptTrade(Long id){
         Trade trade = findById(id);
         trade.setStatus(Status.FECHADO);
         tradeRepository.save(trade);
 
         log.info("Trade has been changed to closed!!");
-        closeTrades(trade);
-        return trade;
+        return closeTrades(trade);
     }
 
     @Transactional
-    private void closeTrades(Trade trade){
+    private Map<String, String> closeTrades(Trade trade){
         Product productPosted = trade.getProductPosted();
         Product productProprosal = trade.getProductProposal();
 
@@ -79,6 +77,9 @@ public class TradeService {
             }
         }
         // productService.updateProductsToAvaliable(productsToUpdate);
+        Map<String, String> result = new HashMap<>();
+        result.put("number_proprosal", productProprosal.getAccount().getPhoneNumber());
+        return result;
     }
 
     @Transactional

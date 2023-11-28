@@ -19,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("trade")
@@ -65,7 +66,7 @@ public class TradeController {
     }
 
     @GetMapping("/accept/{id}")
-    public ResponseEntity<Trade> acceptTrade(@PathVariable Long id){
+    public ResponseEntity<Map<String, String>> acceptTrade(@PathVariable Long id){
         var trade = tradeService.acceptTrade(id);
         return ResponseEntity.ok().body(trade);
     }
